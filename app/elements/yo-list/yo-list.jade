@@ -1,0 +1,20 @@
+link(rel='import', href='../../bower_components/polymer/polymer.html')
+polymer-element(name='yo-list', attributes='')
+  template
+    link(rel='stylesheet', href='yo-list.css')
+    ul
+      template#greeting(repeat='{{ item in items }}')
+        li {{ item }}
+  script.
+    (function () {
+    Polymer({
+    ready: function () {
+    this.items = [
+    'HTML5 Boilerplate',
+    'Web Component Polyfills',
+    'Paper Elements',
+    'Polymer'
+    ];
+    }
+    });
+    })();
