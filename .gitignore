@@ -2,5 +2,5 @@
 app/bower_components
 node_modules
 public
-views
+./views
 npm-debug.log
