@@ -1,16 +1,8 @@
-html
-  body
-    link(rel='import', href='../../bower_components/polymer/polymer.html')
-    polymer-element(name='yo-greeting', attributes='')
-      template
-        link(rel='stylesheet', href='yo-greeting.css')
-        h1 {{ greeting }}, {{ greeting }}!
-        span Update text to change the greeting!
-        //- span it's a test
-        input(type='text', value='{{ greeting }}')
-      script.
-        (function () {
-        Polymer({
-        greeting: '\'Allo'
-        });
-        })();
+link(rel='import', href='../../bower_components/polymer/polymer.html')
+polymer-element(name='pi-welcome', attributes='')
+  template
+    link(rel='stylesheet', href='pi-welcome.css')
+    .milky 植物碎片
+  script.
+    (function () {Polymer({
+    });})();

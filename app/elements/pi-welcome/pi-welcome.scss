@@ -1,11 +1,33 @@
-/* Shadow DOM CSS Cheat Sheet */
-/* http://robdodson.me/blog/2014/04/10/shadow-dom-css-cheat-sheet */
-
-/* styles for the custom element itself - lowest specificity */
 :host {
   display: block;
 }
 
-h1{
-  color:  blue;
+.milky {
+  text-transform: uppercase;
+  display: block;
+  font-size: 60px;
+  color: #f1ebe5;
+  text-shadow: 0 8px 9px #c4b59d, 0px -2px 1px #fff;
+  font-weight: bold;
+  letter-spacing: -4px;
+  text-align: center;
+  white-space: nowrap;
+  margin: auto;
+  border-radius: 20px;
 }
+
+
+/*平板*/
+@media(min-width: 768px){
+  .milky{
+    font-size: 130px;
+  }
+}
+
+/*桌面*/
+@media(min-width: 992px){
+  .milky{
+    font-size: 200px;
+  }
+}
+

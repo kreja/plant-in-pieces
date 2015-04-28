@@ -1,38 +1,50 @@
+/**
+ * 页面
+ */
 body {
-  background: #123321;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Microsoft Yahei','Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #333;
+  background: linear-gradient(to bottom, #ece4d9 0%,#e9dfd1 100%);
 }
-
-.hero-unit {
-  margin: 50px auto 0 auto;
-  width: 300px;
-  font-size: 18px;
-  font-weight: 200;
-  line-height: 30px;
-  background-color: #eee;
-  border-radius: 6px;
-  padding: 60px;
+#noscroll {
+  overflow-x: hidden;
+  overflow-y: auto;
 }
-
-.hero-unit h1 {
-  font-size: 60px;
-  line-height: 1;
-  letter-spacing: -1px;
+/**
+ * 组件
+ */
+pi-welcome{
+  margin-top: 100px;
 }
-
-.browsehappy {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0;
+.des{
+  text-align: center;
+  color: #AD9570;
+  margin: 20px 0 150px;
 }
-
-[drawer] {
-  background-color: #EEEEEE;
+paper-button[raised].btn{
+  background: #DAC9B2;
+  color: #fff;
+  width: 160px;
 }
-
-core-toolbar {
-  color: #FAFAFA;
-  background-color: #009688;
+.view{
+  background: #DAC9B2;
+}
+/**
+ * 平板
+ */
+@media(min-width: 768px){
+  pi-welcome{
+    margin-top: 150px;
+  }
+  .des{
+    margin: 20px 0 50px;
+  }
+}
+/**
+ * 桌面
+ */
+@media(min-width: 992px){
+  pi-welcome{
+    margin-top: 120px;
+  }
 }

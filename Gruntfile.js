@@ -46,10 +46,15 @@ module.exports = function (grunt) {
       },
       jade: {
         files: [
-          '<%= yeoman.app %>/elements/{,*/}*.jade',
-          '<%= yeoman.app %>/views/{,*/}*.jade'
+          '<%= yeoman.app %>/elements/{,*/}*.jade'
         ],
         tasks: ['jade']
+      },
+      copyjade: {
+        files: [
+          '<%= yeoman.app %>/views/{,*/}*.jade'
+        ],
+        tasks: ['copy:jade']
       },
       js: {
         files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
@@ -83,12 +88,6 @@ module.exports = function (grunt) {
           cwd: '<%= yeoman.app %>',
           src: 'elements/{,*/}*.jade',
           dest: '<%= yeoman.dist %>',
-          ext: '.html'
-        },{
-          expand: true,
-          cwd: '<%= yeoman.app %>',
-          src: 'views/{,*/}*.jade',
-          dest: './',
           ext: '.html'
         }]
       }
@@ -133,8 +132,8 @@ module.exports = function (grunt) {
         bsFiles: {
           src : [
             '<%= yeoman.app %>/**/*.{css,html,js}',
-            '<%= yeoman.dist %>/**/*.{css,html,js}'
-            // 'views/**/*.{css,html,js}'//important
+            '<%= yeoman.dist %>/**/*.{css,html,js}',
+            'views/**/*.jade'//important
           ]
         }
       }
@@ -235,6 +234,14 @@ module.exports = function (grunt) {
           cwd: '<%= yeoman.app %>',
           dest: '<%= yeoman.dist %>',
           src: ['bower_components/**']
+        }]
+      },
+      jade: {
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.app %>',
+          dest: './',
+          src: ['views/{,*/}*.jade']
         }]
       },
       styles: {
