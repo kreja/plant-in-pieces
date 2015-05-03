@@ -1,0 +1,50 @@
+link(rel='import', href='../../bower_components/polymer/polymer.html')
+link(rel='import', href='../../bower_components/core-media-query/core-media-query.html')
+
+polymer-element(name='pi-toolbar', attributes='autoPlay musicOn')
+  template
+    link(rel='stylesheet', href='pi-toolbar.css')
+    core-media-query(
+      query="max-width: 768px"
+      queryMatches="{{phoneScreen}}")
+    core-toolbar(
+      layout
+      justified
+      horizontal?="{{phoneScreen}}"
+      vertical?="{{!phoneScreen}}"
+      )
+      paper-fab(icon="apps" mini title="所有植物")
+      paper-fab(
+        icon="{{autoPlay ? 'av:pause' : 'av:play-arrow'}}"
+        mini
+        title="{{autoPlay ? '停止播放' : '自动播放'}}"
+        on-tap="{{toggleAutoPlay}}")
+      paper-fab.notsm(
+        icon="{{musicOn ? 'av:volume-up' : 'av:volume-off'}}"
+        mini
+        title="{{musicOn ? '关闭音乐' : '播放音乐'}}"
+        on-tap="{{toggleMusicOn}}")
+      paper-icon-button.onlysm(icon="arrow-back" title="上一个")
+      paper-icon-button.onlysm(icon="arrow-forward" title="下一个")
+  script.
+    (function () {Polymer({
+      publish: {
+        autoPlay: false,
+        musicOn: false
+      },
+      /**
+       * 自动播放植物切换
+       * @return {[type]} [description]
+       */
+      toggleAutoPlay: function() {
+        this.autoPlay = this.autoPlay ? false : true;
+      },
+      /**
+       * 切换音乐的播放，停止
+       * @return {[type]} [description]
+       */
+      toggleMusicOn: function() {
+        this.musicOn = this.musicOn ? false : true;
+        console.log(this.musicOn);
+      }
+    });})();

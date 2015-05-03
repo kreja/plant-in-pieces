@@ -1,53 +1,114 @@
 extends layout.jade
 block title
   title 植物碎片
+
 block content
   template#app(is='auto-binding')
-    core-animated-pages#pages(flex,selected='0',
-    on-core-animated-pages-transition-end='{{transitionend}}',
-    transitions='cross-fade-all hero-transition')
+    core-media-query(query="max-width: 768px" queryMatches="{{phoneScreen}}")
+    core-animated-pages#pages(selected='0',flex,on-core-animated-pages-transition-end='{{transitionend}}',transitions='cross-fade-all hero-transition')
+
+      //- 引导页 0
       section(vertical, layout)
         #noscroll(fit, hero-p)
           #container(flex, vertical, wrap, around-justified, layout, cross-fade)
-            template(repeat='{{item in items}}')
-              //- 引导页
-              div(vertical, center, center-justified, layout)
-                falling-leaves
-                pi-welcome
-                p.des 保护濒危植物
-                paper-button.btn(
+            div(vertical, center, center-justified, layout,cross-fade)
+              falling-leaves
+              pi-welcome
+              p.des 保护濒危植物
+              paper-button.btn(
                 cross-fade raised on-tap='{{selectView}}'
-                hero-id='item-{{item}}',
-                hero?='{{$.pages.selected === item + 1 || lastSelected === item + 1}}') 进入展览
-      template(repeat='{{item in items}}')
-        section(vertical, layout)
-          .view(flex, vertical, center, center-justified, layout,
-          hero-id='item-{{item}}',
-          hero?='{{$.pages.selected === item + 1 || $.pages.selected === 0}}')
-            //- 新的一页
-            div(cross-fade on-tap='{{back}}') back
+                hero-id='page-main',
+                hero?="{{$.pages.selected === page2Num['page-main'] || lastSelected === page2Num['page-main']}}") 进入展览
+
+      //- 主页 1
+      section(layout vertical)
+        .view(flex,layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}",hero-id='page-main',hero?="{{$.pages.selected === page2Num['page-main'] || $.pages.selected === page2Num['page-main']-1}}")
+          //- 工具条
+          core-toolbar(layout,horizontal?="{{!phoneScreen}}",center?="{{!phoneScreen}}")
+            div(layout,justified,horizontal?="{{phoneScreen}}",vertical?="{{!phoneScreen}}")
+              paper-fab(icon="apps",mini,title="所有植物",cross-fade,raised,on-tap='{{selectView}}',hero-id='page-all',hero?="{{$.pages.selected === page2Num['page-all'] || lastSelected === page2Num['page-all']}}")
+              paper-fab(
+                icon="{{autoPlay ? 'av:pause' : 'av:play-arrow'}}"
+                mini
+                title="{{autoPlay ? '停止播放' : '自动播放'}}"
+                on-tap="{{toggleAutoPlay}}")
+              paper-fab.notsm(
+                icon="{{musicOn ? 'av:volume-up' : 'av:volume-off'}}"
+                mini
+                title="{{musicOn ? '关闭音乐' : '播放音乐'}}"
+                on-tap="{{toggleMusicOn}}")
+              paper-icon-button.onlysm(icon="arrow-back" title="上一个")
+              paper-icon-button.onlysm(icon="arrow-forward" title="下一个")
+
+          div.plantArea 植物展示区
+          //- 菜单
+          paper-fab-menu(cross-fade,raised,layout,center?="{{!phoneScreen}}",horizontal?="{{!phoneScreen}}",onlyOpen='{{phoneScreen?false:true}}' icon='menu', closeicon='close', duration='0.3')
+            paper-fab-menu-item(opened icon='image:details', color='rgba(18,179,136,0.2);', tooltip='详情',cross-fade,raised,on-tap='{{selectView}}',hero-id='page-detail',hero?="{{$.pages.selected === page2Num['page-detail'] || lastSelected === page2Num['page-detail']}}")
+            paper-fab-menu-item(opened icon='wallet-giftcard', color='rgba(18,179,136,0.4);', tooltip='电子贺卡',cross-fade,raised,on-tap='{{selectView}}',hero-id='page-ecard',hero?="{{$.pages.selected === page2Num['page-ecard'] || lastSelected === page2Num['page-ecard']}}")
+            paper-fab-menu-item(icon='editor:insert-comment', color='rgba(18,179,136,0.6);', tooltip='评论',cross-fade,raised,on-tap='{{selectView}}',hero-id='page-comment',hero?="{{$.pages.selected === page2Num['page-comment'] || lastSelected === page2Num['page-comment']}}")
+            paper-fab-menu-item(icon='info-outline', color='rgba(18,179,136,0.8);', tooltip='关于',cross-fade,raised,on-tap='{{selectView}}',hero-id='page-about',hero?="{{$.pages.selected === page2Num['page-about'] || lastSelected === page2Num['page-about']}}")
+          //- 植物名
+          div.plantName 植物
+
+      //- 所有植物页面 2
+      section(layout vertical)
+        .view(cross-fade,raised,flex,layout,vertical,hero-id='page-all',hero?="{{$.pages.selected === page2Num['page-all'] || $.pages.selected === page2Num['page-main']}}")
+          div(layout,horizontal,end-justified)
+            paper-icon-button(cross-fade,raised,on-tap='{{back}}',icon="close" title="返回")
+          p 所有植物
+
+
+      //- 详情页面 3
+      section(layout vertical)
+        .view(flex,layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}",hero-id='page-detail',hero?="{{$.pages.selected === page2Num['page-detail'] || $.pages.selected === page2Num['page-main']}}")
+          p 我是详情页
+          paper-icon-button(cross-fade,raised,on-tap='{{back}}',icon="close" title="返回")
+
+      //- 电子贺卡 4
+      section(layout vertical)
+        .view(flex,layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}",hero-id='page-ecard',hero?="{{$.pages.selected === page2Num['page-ecard'] || $.pages.selected === 1}}")
+          p 我是电子贺卡
+          paper-icon-button(cross-fade,raised,on-tap='{{back}}',icon="close" title="返回")
+
+      //- 评论页面 5
+      section(layout vertical)
+        .view(flex,layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}",hero-id='page-comment',hero?="{{$.pages.selected === page2Num['page-comment'] || $.pages.selected === page2Num['page-main']}}")
+          p 我是评论页
+          paper-icon-button(cross-fade,raised,on-tap='{{back}}',icon="close" title="返回")
+
+      //- 关于页面 6
+      section(layout vertical)
+        .view(flex,layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}",hero-id='page-about',hero?="{{$.pages.selected === page2Num['page-about'] || $.pages.selected === page2Num['page-main']}}")
+          p 我是关于页面
+          paper-icon-button(cross-fade,raised,on-tap='{{back}}',icon="close" title="返回")
 
 block beforebody
   script(src='/scripts/app.js')
   script.
     addEventListener('template-bound', function(e) {
       var scope = e.target;
-      var items = [], count=1;
-      for (var i=0; i < count; i++) {
-        items.push(i);
-      }
-      scope.items = items;
+      // 页面匹配
+      var page2Num = scope.page2Num={
+        'page-main': 1,
+        'page-all': 2,
+        'page-detail': 3,
+        'page-ecard': 4,
+        'page-comment': 5,
+        'page-about': 6
+      };
       scope.selectView = function(e) {
-        var i = e.target.templateInstance.model.item;
-        this.$.pages.selected = i+1;
+        this.$.pages.selected = page2Num[e.target.getAttribute('hero-id')];
       }
       scope.back = function() {
         this.lastSelected = this.$.pages.selected;
-        this.$.pages.selected = 0;
+        this.$.pages.selected = 1; //都回到 page-main
       }
+      //- 返回最开始才会执行
       scope.transitionend = function() {
         if (this.lastSelected) {
           this.lastSelected = null;
         }
       }
     })
+
+

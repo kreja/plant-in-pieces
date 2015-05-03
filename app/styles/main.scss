@@ -1,5 +1,5 @@
 /**
- * 页面
+ * page
  */
 body {
   font-family: 'Microsoft Yahei','Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -10,8 +10,12 @@ body {
   overflow-x: hidden;
   overflow-y: auto;
 }
+.notsm{
+  display: none;
+}
+
 /**
- * 组件
+ * components
  */
 pi-welcome{
   margin-top: 100px;
@@ -26,22 +30,82 @@ paper-button[raised].btn{
   color: #fff;
   width: 160px;
 }
+
+/*mainpage*/
 .view{
   background: #DAC9B2;
 }
+
+/*left bar*/
+core-toolbar{
+  padding: 10px 20px;
+  paper-fab{
+    background: transparent;
+  }
+  paper-icon-button{
+    color: #fff;
+  }
+}
+
+.plantArea{
+  width:100%;
+  height:320px;
+  background:red;
+  margin: 20px 0;
+}
+
+.plantName{
+  position: absolute;
+  bottom: 16px;
+  left: 25px;
+  font-size: 30px;
+  height: 56px;
+  line-height: 56px;
+  color: #fff;
+}
+
+paper-fab-menu  /deep/  paper-fab{
+  background: rgba(18,179,136,1);
+}
 /**
- * 平板
+ * pad and desktop
  */
 @media(min-width: 768px){
-  pi-welcome{
-    margin-top: 150px;
+  .notsm{
+    display: block;
+  }
+  .onlysm{
+    display: none;
   }
   .des{
     margin: 20px 0 50px;
   }
+  .plantArea{
+    width: 500px;
+    height: 500px;
+    margin: auto;
+  }
+  .plantName{
+    width: 100%;
+    left: 0;
+    text-align: center;
+  }
+  core-toolbar{
+    paper-fab{
+      margin: 20px 0;
+    }
+  }
 }
 /**
- * 桌面
+ * only pad
+ */
+@media(min-width: 768px) and (max-width: 992px){
+  pi-welcome{
+    margin-top: 150px;
+  }
+}
+/**
+ * desktop
  */
 @media(min-width: 992px){
   pi-welcome{

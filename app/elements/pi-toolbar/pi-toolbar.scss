@@ -1,0 +1,46 @@
+:host {
+  display: block;
+}
+
+core-toolbar{
+  padding: 10px 20px;
+}
+
+.notsm{
+  display: none;
+}
+
+paper-fab{
+  background: transparent;
+}
+
+paper-icon-button{
+  color: #fff;
+}
+
+/*平板*/
+@media(min-width: 768px){
+  .notsm{
+    display: block;
+  }
+  .onlysm{
+    display: none;
+  }
+  paper-fab{
+    margin: 20px 0;
+  }
+}
+
+/*桌面*/
+@media(min-width: 992px){
+  .notsm{
+    display: block;
+  }
+  .onlysm{
+    display: none;
+  }
+  paper-fab{
+    margin: 20px 0;
+  }
+}
+

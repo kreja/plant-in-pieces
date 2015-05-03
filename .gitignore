@@ -2,5 +2,4 @@
 app/bower_components
 node_modules
 public
-./views
 npm-debug.log
