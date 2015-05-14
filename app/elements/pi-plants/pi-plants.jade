@@ -1,0 +1,13 @@
+link(rel='import', href='../../bower_components/polymer/polymer.html')
+
+polymer-element(name='pi-plants',attributes="plantsClass")
+  template
+    link(rel='stylesheet', href='pi-plants.css')
+    .wrap(class="{{plantsClass}}")
+      - for (var i = 0; i < 30; i++)
+          .shard-wrap
+            .shard
+
+  script.
+    (function () {Polymer({
+    });})();

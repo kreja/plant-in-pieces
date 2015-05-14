@@ -31,9 +31,12 @@ paper-button[raised].btn{
   width: 160px;
 }
 
-/*mainpage*/
+/*page set*/
 .view{
   background: #DAC9B2;
+}
+.detail-view{
+  background: #424242;
 }
 
 /*left bar*/
@@ -50,7 +53,6 @@ core-toolbar{
 .plantArea{
   width:100%;
   height:320px;
-  background:red;
   margin: 20px 0;
 }
 
@@ -67,6 +69,12 @@ core-toolbar{
 paper-fab-menu  /deep/  paper-fab{
   background: rgba(18,179,136,1);
 }
+
+core-toolbar.return-bar{
+  background: #00BAD2;
+  margin-bottom: 10px;
+}
+
 /**
  * pad and desktop
  */

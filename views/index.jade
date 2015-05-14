@@ -40,15 +40,18 @@ block content
               paper-icon-button.onlysm(icon="arrow-back" title="上一个")
               paper-icon-button.onlysm(icon="arrow-forward" title="下一个")
 
-          div.plantArea 植物展示区
+          div.plantArea(cross-fade,raised)
+            pi-plants(cross-fade,raised,plantsClass='boleshu')
+
           //- 菜单
           paper-fab-menu(cross-fade,raised,layout,center?="{{!phoneScreen}}",horizontal?="{{!phoneScreen}}",onlyOpen='{{phoneScreen?false:true}}' icon='menu', closeicon='close', duration='0.3')
             paper-fab-menu-item(opened icon='image:details', color='rgba(18,179,136,0.2);', tooltip='详情',cross-fade,raised,on-tap='{{selectView}}',hero-id='page-detail',hero?="{{$.pages.selected === page2Num['page-detail'] || lastSelected === page2Num['page-detail']}}")
             paper-fab-menu-item(opened icon='wallet-giftcard', color='rgba(18,179,136,0.4);', tooltip='电子贺卡',cross-fade,raised,on-tap='{{selectView}}',hero-id='page-ecard',hero?="{{$.pages.selected === page2Num['page-ecard'] || lastSelected === page2Num['page-ecard']}}")
             paper-fab-menu-item(icon='editor:insert-comment', color='rgba(18,179,136,0.6);', tooltip='评论',cross-fade,raised,on-tap='{{selectView}}',hero-id='page-comment',hero?="{{$.pages.selected === page2Num['page-comment'] || lastSelected === page2Num['page-comment']}}")
             paper-fab-menu-item(icon='info-outline', color='rgba(18,179,136,0.8);', tooltip='关于',cross-fade,raised,on-tap='{{selectView}}',hero-id='page-about',hero?="{{$.pages.selected === page2Num['page-about'] || lastSelected === page2Num['page-about']}}")
+
           //- 植物名
-          div.plantName 植物
+          div.plantName {{plant.name}}
 
       //- 所有植物页面 2
       section(layout vertical)
@@ -59,10 +62,21 @@ block content
 
 
       //- 详情页面 3
-      section(layout vertical)
-        .view(flex,layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}",hero-id='page-detail',hero?="{{$.pages.selected === page2Num['page-detail'] || $.pages.selected === page2Num['page-main']}}")
-          p 我是详情页
-          paper-icon-button(cross-fade,raised,on-tap='{{back}}',icon="close" title="返回")
+      section(layout?="{{!phoneScreen}}",vertical)
+        .detail-view(flex,layout?="{{!phoneScreen}}",vertical,hero-id='page-detail',hero?="{{$.pages.selected === page2Num['page-detail'] || $.pages.selected === page2Num['page-main']}}")
+          core-toolbar.return-bar(horizontal,layout,end-justified)
+            paper-icon-button(cross-fade,raised,on-tap='{{back}}',icon="close" title="返回")
+          div(layout,vertical,flex?="{{!phoneScreen}}")
+            page-detail(layout,vertical,flex?="{{!phoneScreen}}")
+              co-txt
+                div {{plant.des}}
+              co-img(layout,horizontal,flex)
+                img-slider(layout,horizontal,flex,path="data/{{plant.file}}/images/")
+                //- img(flex src="data/{{plant.file}}/images/0.jpg",on-tap='{{selectView}}',hero-id='page-img',hero?="{{$.pages.selected === page2Num['page-img'] || lastSelected === page2Num['page-img']}}")
+              co-video(layout,horizontal,flex)
+                img(src="http://placehold.it/350x150",on-tap='{{selectView}}',hero-id='page-video',hero?="{{$.pages.selected === page2Num['page-video'] || lastSelected === page2Num['page-video']}}")
+              co-data(layout,horizontal,flex)
+                img(flex src="http://placehold.it/350x150",on-tap='{{selectView}}',hero-id='page-data',hero?="{{$.pages.selected === page2Num['page-data'] || lastSelected === page2Num['page-data']}}")
 
       //- 电子贺卡 4
       section(layout vertical)
@@ -82,11 +96,57 @@ block content
           p 我是关于页面
           paper-icon-button(cross-fade,raised,on-tap='{{back}}',icon="close" title="返回")
 
+      //- 详情-图片页面 7
+      section(layout vertical)
+        .view(flex,layout,vertical,hero-id='page-img',hero?="{{$.pages.selected === page2Num['page-img'] || $.pages.selected === page2Num['page-detail']}}")
+          core-toolbar.return-bar(horizontal,layout,end-justified)
+            paper-icon-button(cross-fade,raised,on-tap='{{back}}',icon="close" title="返回")
+
+      //- 详情-视频页面 8
+      section(layout vertical)
+        .view(flex,layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}",hero-id='page-video',hero?="{{$.pages.selected === page2Num['page-video'] || $.pages.selected === page2Num['page-detail']}}")
+          p 我是视频页面
+          paper-icon-button(cross-fade,raised,on-tap='{{backDetail}}',icon="close" title="返回详情页")
+
+      //- 详情-数据可视化页面 9
+      section(layout vertical)
+        .view(flex,layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}",hero-id='page-data',hero?="{{$.pages.selected === page2Num['page-data'] || $.pages.selected === page2Num['page-detail']}}")
+          p 我是数据页面
+          paper-icon-button(cross-fade,raised,on-tap='{{backDetail}}',icon="close" title="返回详情页")
+
 block beforebody
   script(src='/scripts/app.js')
   script.
     addEventListener('template-bound', function(e) {
       var scope = e.target;
+
+      // todo 应该是后台传过来的
+      scope.plant = {
+        "name":"宝华玉兰", //植物名
+        "file":"baohuayulan", //文件名 拼音
+        "enName":"Magnolia zenii Cheng",
+        "level":"国家一级保护植物", //濒危等级
+        "des":"宝华玉兰是木兰科木兰属的植物，为中国的特有植物。宝华玉兰全球只剩下38棵了，濒危种。宝华木兰在原产地江苏省宝华山仅残留18株，最大者高11米，胸径45厘米，散生于稀疏的阔叶林中,全部存活在江苏镇江市的宝华山上。由于林下灌木层不断地坡坏，未见更新苗木。若不采取保护措施，将有绝灭的危险。由于宝华玉兰繁殖全靠自然繁殖，没有人工的栽培介入，这也让宝华玉兰的存活量少得惊人。处在自然繁殖情况下的宝华玉兰，在生长早期会成长得很快，但当树龄到了成年之后，生长速度便开始放缓，要等10年左右才能开花结果，如此成长艰难的树木当然难逃绝种的境界。", //描述
+        "img": { //图片
+            "sources":["https://www.google.com.hk/search?q=%E5%AE%9D%E5%8D%8E%E7%8E%89%E5%85%B0&newwindow=1&safe=strict&source=lnms&tbm=isch&sa=X&ei=D0lDVfe7LeG6mAWz44DoBw&ved=0CAkQ_AUoAg&biw=1366&bih=652","http://zh.wikipedia.org/wiki/File:Magnolia_zenii_1.jpg","http://huaban.com/search/?q=%E5%AE%9D%E5%8D%8E%E7%8E%89%E5%85%B0"],
+            "src":[] //只要渲染那里写就可以了
+        },
+        "video": { //视频
+            "sources":["http://tv.cntv.cn/video/C20319/ac142a14694c3dde6785f2860a4e5c44"],
+            "src":[]
+        },
+        "statSum":{ //数量统计
+            "1993": 230000
+        },
+        "statAge":{ //年龄结构统计
+            "10": 0.10
+        },
+        "statArea":{ //分布统计
+            "yunnan": 0.23
+        },
+        "sources":[] //数据来源
+      };
+
       // 页面匹配
       var page2Num = scope.page2Num={
         'page-main': 1,
@@ -94,7 +154,10 @@ block beforebody
         'page-detail': 3,
         'page-ecard': 4,
         'page-comment': 5,
-        'page-about': 6
+        'page-about': 6,
+        'page-img': 7,
+        'page-video': 8,
+        'page-data': 9
       };
       scope.selectView = function(e) {
         this.$.pages.selected = page2Num[e.target.getAttribute('hero-id')];
@@ -102,6 +165,10 @@ block beforebody
       scope.back = function() {
         this.lastSelected = this.$.pages.selected;
         this.$.pages.selected = 1; //都回到 page-main
+      }
+      scope.backDetail = function() {
+        this.lastSelected = this.$.pages.selected;
+        this.$.pages.selected = 3; //回到 page-detail
       }
       //- 返回最开始才会执行
       scope.transitionend = function() {

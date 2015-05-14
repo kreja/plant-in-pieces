@@ -1,0 +1,23 @@
+link(rel='import', href='../../bower_components/polymer/polymer.html')
+link(rel='import', href='../../bower_components/core-media-query/core-media-query.html')
+
+polymer-element(name='page-detail')
+  template
+    link(rel='stylesheet', href='page-detail.css')
+    core-media-query(
+      query="max-width: 768px"
+      queryMatches="{{phoneScreen}}")
+    div(layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}",flex?="{{!phoneScreen}}")
+      .box.txt-box(cross-fade,raised,flex?="{{!phoneScreen}}",horizontal layout center-justified center)
+        <content select="co-txt"></content>
+      .box.img-box(cross-fade,raised,flex?="{{!phoneScreen}}",horizontal layout)
+        <content select="co-img"></content>
+    div(layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}",flex?="{{!phoneScreen}}")
+      .box.video-box(cross-fade,raised,flex?="{{!phoneScreen}}",horizontal layout)
+        <content select="co-video"></content>
+      .box.data-box(cross-fade,raised,flex?="{{!phoneScreen}}",horizontal layout)
+        <content select="co-data"></content>
+
+  script.
+    (function () {Polymer({
+    });})();

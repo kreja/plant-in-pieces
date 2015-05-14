@@ -1,0 +1,64 @@
+:host {
+  display: block;
+}
+.box{
+  text-align: justify;
+  text-indent: 2em;
+  margin: 0 0 10px;
+  height: 200px;
+  padding: 12px;
+}
+.txt-box{
+  background: #B9F6CA;
+  height: auto;
+  min-height: 200px;
+}
+.img-box{
+  background: #FFFF8D;
+}
+.video-box{
+  background: #FF8A80;
+}
+.data-box{
+  background: #84FFFF;
+}
+/**
+ * insert elements
+ */
+content[select]::content img{
+  display: block;
+}
+
+/**
+ * pad and desktop
+ */
+@media(min-width: 768px){
+  .box{
+    height: auto;
+  }
+}
+/**
+ * only pad
+ */
+@media(min-width: 768px) and (max-width: 1025px){
+  .box{
+    margin: 0 0 10px 10px;
+    padding: 20px;
+    &:last-child{
+      margin-right: 10px;
+    }
+  }
+}
+/**
+ * only desktop
+ */
+@media(min-width: 1025px){
+  .box{
+    margin: 0 0 10px 30px;
+    padding: 15px 30px;
+    &:last-child{
+      margin-right: 30px;
+    }
+  }
+}
+

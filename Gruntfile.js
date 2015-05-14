@@ -250,7 +250,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('serve', [
-    'clean',
+    // 'clean', data 不能 clean
     'jade',
     'sass',
     'copy',

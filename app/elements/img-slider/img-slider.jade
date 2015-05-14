@@ -1,0 +1,59 @@
+link(rel='import', href='../../bower_components/polymer/polymer.html')
+
+polymer-element(name='img-slider',attributes="path")
+  template
+    link(rel='stylesheet', href='img-slider.css')
+    ul.slides(flex)
+      input#img1(type='radio', name='radio-btn',checked="checked")
+      li.slide-container
+        .slide
+          img(src='{{path}}0.jpg')
+        .nav
+          label.prev(for='img-6') ‹
+          label.next(for='img-2') ›
+      input#img-2(type='radio', name='radio-btn')
+      li.slide-container
+        .slide
+          img(src='{{path}}1.jpg')
+        .nav
+          label.prev(for='img1') ‹
+          label.next(for='img-3') ›
+      input#img-3(type='radio', name='radio-btn')
+      li.slide-container
+        .slide
+          img(src='{{path}}2.jpg')
+        .nav
+          label.prev(for='img-2') ‹
+          label.next(for='img-4') ›
+      input#img-4(type='radio', name='radio-btn')
+      li.slide-container
+        .slide
+          img(src='{{path}}3.jpg')
+        .nav
+          label.prev(for='img-3') ‹
+          label.next(for='img-5') ›
+      input#img-5(type='radio', name='radio-btn')
+      li.slide-container
+        .slide
+          img(src='{{path}}4.jpg')
+        .nav
+          label.prev(for='img-4') ‹
+          label.next(for='img-6') ›
+      input#img-6(type='radio', name='radio-btn')
+      li.slide-container
+        .slide
+          img(src='{{path}}5.jpg')
+        .nav
+          label.prev(for='img-5') ‹
+          label.next(for='img1') ›
+      li.nav-dots
+        label#img-dot-1.nav-dot(for='img1')
+        label#img-dot-2.nav-dot(for='img-2')
+        label#img-dot-3.nav-dot(for='img-3')
+        label#img-dot-4.nav-dot(for='img-4')
+        label#img-dot-5.nav-dot(for='img-5')
+        label#img-dot-6.nav-dot(for='img-6')
+
+  script.
+    (function () {Polymer({
+    });})();
