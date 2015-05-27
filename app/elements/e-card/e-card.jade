@@ -1,0 +1,74 @@
+link(rel='import', href='../../bower_components/polymer/polymer.html')
+
+polymer-element(name='e-card',attributes="path")
+  template
+    link(rel='stylesheet', href='e-card.css')
+
+    core-media-query(query="max-width: 768px" queryMatches="{{phoneScreen}}")
+    core-ajax#ajax(
+      url="http://localhost:3000/sendCard"
+      body='{{params}}'
+      method='POST'
+      contentType='application/json'
+      handleAs="json"
+      on-core-response="{{handleResponse}}"
+    )
+
+    .wrap(layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}")
+
+      img.image(src="{{path}}")
+
+      .inputArea(layout, vertical)
+        paper-input#toName(label="To:",floatingLabel)
+        paper-input-decorator(label="祝福：",floatingLabel)
+          paper-autogrow-textarea
+            textarea#wishes
+        paper-input#fromName(label="From:",floatingLabel)
+        paper-input#toEmail(label="收件人邮箱",floatingLabel,on-input="{{checkEmail}}")
+        div(layout, horizontal)
+          #tips.tips(flex)
+          paper-fab#sendBtn(self-end,icon="send",title="发送",on-tap="{{send}}")
+
+  script.
+    (function () {Polymer({
+      passedCheck: false, // 是否通过校验了
+      /**
+       * 按下发送
+       * @return {[type]} [description]
+       */
+      send: function(){
+        // 校验邮箱
+        if(!this.checkEmail()){
+          return false;
+        }
+
+        this.params = JSON.stringify({
+          toName: this.$.toName.value,
+          wishes: this.$.wishes.value,
+          fromName: this.$.fromName.value,
+          toEmail: this.$.toEmail.value,
+          imgPath: this.path
+        });
+
+        this.$.ajax.go();
+
+        return false;
+      },
+      /**
+       * 校验，邮箱必填
+       * @return {[true]} [通过校验]
+       */
+      checkEmail: function(){
+        var regEmail = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}/;
+
+        this.passedCheck = regEmail.test(this.$.toEmail.value);
+
+        if(!this.passedCheck){
+          this.$.tips.innerHTML = '请输入正确的邮箱地址！';
+        }else{
+          this.$.tips.innerHTML = '';
+        }
+
+        return this.passedCheck;
+      }
+    });})();

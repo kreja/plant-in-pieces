@@ -34,15 +34,108 @@ paper-button[raised].btn{
 /*page set*/
 .view{
   background: #DAC9B2;
+  transition: background 1s;
+}
+
+.main-view{
+  &:after{
+    content: "";
+    opacity: .34;
+    -webkit-transition: 0.23s;
+    -moz-transition: 0.23s;
+    transition: 0.23s;
+    -webkit-backface-visibility: hidden;
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -150px;
+    margin-top: -150px;
+    background: url("../images/grad-bg.png") no-repeat center center/cover;
+    z-index: 1;
+    pointer-events: none;
+  }
 }
 .detail-view{
   background: #424242;
+  .return-bar{
+    background: #00BAD2;
+  }
+}
+.ecard-view{
+  background: #F4C3C5;
+  .return-bar{
+    background: #FF9EA2;
+  }
+}
+.comment-view{
+  background: #424242;
+  .return-bar{
+    background: #B388FF;
+  }
+}
+.about-view{
+  background: #63C5AB;
+  .return-bar{
+    background: #26B38E;
+  }
+}
+/**
+ * plant-view
+ */
+.baohuayulan-view{
+  background: #F68F6F;
+}
+.boleshu-view{
+  background: #CCC5E3;
+}
+.changruimulan-view{
+  background: #B49349;
+}
+.chiguoyoushu-view{
+  background: #F6D860;
+}
+.ezhangqiu-view{
+  background: #DBAE63;
+}
+.gongtong-view{
+  background: #96D77C;
+}
+.hongdoushan-view{
+  background: #F48D6E;
+}
+.houmianbaoshu-view{
+  background: #98BFF6;
+}
+.jinhuacha-view{
+  background: #785EBB;
+}
+.putuoeerli-view{
+  background: #F4C3C5;
+}
+.shuiqingshu-view{
+  background: #54AE67;
+}
+.shuishan-view{
+  background: #6BA6D0;
+}
+.suoluo-view{
+  background: #D7A887;
+}
+.xishu-view{
+  background: #73BD7D;
+}
+.yinshan-view{
+  background: #CDC6DF;
 }
 
 /*left bar*/
 core-toolbar{
   padding: 10px 20px;
-  paper-fab{
+  paper-fab,
+  autoPlay-btn /deep/ paper-fab,
+  pi-audio /deep/ paper-fab{
     background: transparent;
   }
   paper-icon-button{
@@ -53,7 +146,7 @@ core-toolbar{
 .plantArea{
   width:100%;
   height:320px;
-  margin: 20px 0;
+  margin: 50px 0;
 }
 
 .plantName{
@@ -70,7 +163,7 @@ paper-fab-menu  /deep/  paper-fab{
   background: rgba(18,179,136,1);
 }
 
-core-toolbar.return-bar{
+.return-bar{
   background: #00BAD2;
   margin-bottom: 10px;
 }
@@ -101,6 +194,34 @@ core-toolbar.return-bar{
   core-toolbar{
     paper-fab{
       margin: 20px 0;
+    }
+  }
+  .pre-btn,
+  .next-btn{
+    position: absolute;
+    bottom: 20px;
+    z-index: 10;
+  }
+  .pre-btn{
+    left: 20%;
+  }
+  .next-btn{
+    right: 20%;
+  }
+  core-toolbar{
+    padding: 10px 20px;
+    paper-fab,
+    autoPlay-btn /deep/ paper-fab,
+    pi-audio /deep/ paper-fab{
+      margin: 20px 0;
+    }
+  }
+  .main-view{
+    &:after{
+      width: 600px;
+      height: 600px;
+      margin-left: -300px;
+      margin-top: -300px;
     }
   }
 }

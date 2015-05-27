@@ -71,7 +71,7 @@ input:checked + .slide-container  .slide {
 
 input:checked + .slide-container .nav label {
   display: block;
-  opacity: 0.5;
+  opacity: 0.8;
 }
 
 .nav-dots {
@@ -112,17 +112,14 @@ input#img-6:checked ~ .nav-dots label#img-dot-6{
  * pad and desktop
  */
 @media(min-width: 768px){
-
+  .nav label {
+    line-height: 240px;
+  }
 }
 /**
  * only pad
  */
 @media(min-width: 768px) and (max-width: 1025px){
-  .nav label {
-    width: 200px;
-    font-size: 156pt;
-    line-height: 380px;
-  }
 }
 /**
  * only desktop
@@ -131,5 +128,8 @@ input#img-6:checked ~ .nav-dots label#img-dot-6{
   input:checked + .slide-container .nav label {
     opacity: 0;
   }
-  .slide:hover + .nav label { opacity: 0.5; }
+  input:checked + .slide-container:hover .nav label {
+    display: block;
+    opacity: 0.8;
+  }
 }

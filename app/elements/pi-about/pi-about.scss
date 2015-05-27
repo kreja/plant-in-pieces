@@ -1,0 +1,61 @@
+:host {
+  display: block;
+  padding: 0 10px;
+}
+.title,
+.des{
+  color: #fff;
+  text-align: center;
+}
+.title{
+  font-size: 24px;
+}
+.des{
+  font-size: 14px;
+}
+.source{
+  font-size: 12px;
+  p{
+    color: #fff;
+  }
+  li{
+    list-style: none;
+    line-height: 30px;
+
+    a{
+      color: #fff;
+      text-decoration: none;
+      border-bottom: 1px solid #fff;
+    }
+  }
+}
+
+
+/**
+ * pad and desktop
+ */
+@media(min-width: 768px){
+  :host {
+    padding: 0 100px;
+  }
+  .title{
+    font-size: 36px;
+  }
+  .des{
+    font-size: 18px;
+  }
+  .source{
+    margin-left: 80px;
+    font-size: 14px;
+  }
+}
+/**
+ * only pad
+ */
+@media(min-width: 768px) and (max-width: 1025px){
+}
+/**
+ * only desktop
+ */
+@media(min-width: 1025px){
+}

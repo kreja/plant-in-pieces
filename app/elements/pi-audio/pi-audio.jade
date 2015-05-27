@@ -1,0 +1,25 @@
+link(rel='import', href='../../bower_components/polymer/polymer.html')
+
+polymer-element(name='pi-audio', attributes="musicOn path")
+  template
+    link(rel='stylesheet', href='pi-audio.css')
+
+    audio#audio(src="{{path}}",loop="loop")
+    paper-fab(
+      icon="{{musicOn ? 'av:volume-up' : 'av:volume-off'}}"
+      mini
+      title="{{musicOn ? '关闭音乐' : '播放音乐'}}"
+      on-tap="{{toggleMusicOn}}")
+
+  script.
+    (function () {Polymer({
+      publish: {
+        musicOn: false
+      },
+      musicOnChanged: function(){
+        this.musicOn ? this.$.audio.play() : this.$.audio.pause();
+      },
+      toggleMusicOn: function(){
+        this.musicOn = this.musicOn ? false : true;
+      }
+    });})();

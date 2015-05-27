@@ -1,0 +1,21 @@
+:host {
+  display: block;
+}
+video{
+  background-color: rgba(0,0,0,0.2);
+}
+/**
+ * pad and desktop
+ */
+@media(min-width: 768px){
+}
+/**
+ * only pad
+ */
+@media(min-width: 768px) and (max-width: 1025px){
+}
+/**
+ * only desktop
+ */
+@media(min-width: 1025px){
+}

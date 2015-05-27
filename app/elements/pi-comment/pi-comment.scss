@@ -1,0 +1,121 @@
+:host {
+  display: block;
+}
+.box{
+  overflow: hidden;
+  height: 200px;
+  margin: 5px 0;
+  float: left;
+  width: 100%;
+
+  &:nth-child(4n+1){
+    background: #FFFF8D;
+    .infoBar{
+      background: #FFEB3B;
+    }
+  }
+
+  &:nth-child(4n+2){
+    background: #84FFFF;
+    .infoBar{
+      background: #03A9F4;
+    }
+  }
+
+  &:nth-child(4n+3){
+    background: #FF8A80;
+    .infoBar{
+      background: #FF5252;
+    }
+  }
+
+  &:nth-child(4n+4){
+    background: #B9F6CA;
+    .infoBar{
+      background: #1DE9B6;
+    }
+  }
+}
+.commentbox{
+  height: 200px;
+  color: #424242;
+  text-align: justify;
+
+  .infoBar{
+    background: #1DE9B6 !important;
+  }
+}
+.infoBar{
+  padding: 10px;
+}
+textarea{
+  border: 0;
+  resize: none;
+  display: block;
+  padding: 10px;
+  color: #bbb;
+  font-size: 18px;
+
+  &:focus{
+    outline: none;
+  }
+}
+.error{
+  animation: fade-background 2s;
+}
+paper-fab{
+  margin: auto;
+  margin-left: 10px;
+  background: transparent;
+}
+.commentShowBox{
+  padding: 10px;
+}
+
+@keyframes fade-background
+{
+  0% {background: red;}
+  20% {background: transparent;}
+  40% {background: red;}
+  60% {background: transparent;}
+  80% {background: red;}
+  100% {background: transparent;}
+}
+
+@-webkit-keyframes fadein {
+  from { opacity:0; max-height:0;overflow: hidden;}
+  to { opacity:1; max-height:200px;overflow: hidden;}
+}
+@-moz-keyframes fadein {
+  from { opacity:0; max-height:0;overflow: hidden;}
+  to { opacity:1; max-height:200px;overflow: hidden;}
+}
+@keyframes fadein {
+  from { opacity:0; max-height:0;overflow: hidden;}
+  to { opacity:1; max-height:200px;overflow: hidden;}
+}
+
+/**
+ * pad and desktop
+ */
+@media(min-width: 768px){
+  .box{
+    margin: 5px;
+    width: calc(100%/6 - 10px);
+    height: 195px;
+  }
+  .commentbox{
+    width: calc(100%/3 - 10px);
+    height: 400px;
+  }
+}
+/**
+ * only pad
+ */
+@media(min-width: 768px) and (max-width: 1025px){
+}
+/**
+ * only desktop
+ */
+@media(min-width: 1025px){
+}

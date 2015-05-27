@@ -1,0 +1,102 @@
+link(rel='import', href='../../bower_components/polymer/polymer.html')
+
+polymer-element(name='pi-comment')
+  template
+    link(rel='stylesheet', href='pi-comment.css')
+
+    core-media-query(query="max-width: 768px" queryMatches="{{phoneScreen}}")
+
+    core-ajax#ajaxGetComment(
+      url="http://localhost:3000/getComment"
+      params='{}'
+      method='GET'
+      contentType='application/json'
+      handleAs="json"
+      on-core-response="{{handleGetCommentResponse}}"
+    )
+
+    core-ajax#ajaxSendComment(
+      url="http://localhost:3000/sendComment"
+      body='{{params}}'
+      method='POST'
+      contentType='application/json'
+      handleAs="json"
+      on-core-response="{{handleSendCommentResponse}}"
+    )
+
+    .box.commentbox(layout, vertical)
+      textarea#comment(flex, placeholder="请输入评论",on-input="{{passCheck}}")
+      .infoBar(layout,horizontal)
+        paper-input#nickName(label="请输入昵称:",floatingLabel,flex)
+        paper-fab#sendBtn(self-end,icon="send",title="发送",on-tap="{{send}}")
+    .wrap
+      template(repeat="{{item in commentList}}")
+        .box(layout, vertical)
+          .commentShowBox(flex) {{item.comment}}
+          .infoBar(layout,horizontal)
+            p(flex) {{item.nickName}}
+            paper-fab#replyBtn(mini,self-end,icon="reply",title="回复",on-tap="{{reply}}")
+
+  script.
+    (function () {Polymer({
+      commentList: [], // 评论列表
+      /**
+       * 初始化
+       * @return {[type]} [description]
+       */
+      ready: function(){
+        this.$.ajaxGetComment.go(); // 自动获取评论
+
+      },
+      /**
+       * 异步获取评论列表之后
+       * @return {[type]} [description]
+       */
+      handleGetCommentResponse: function(){
+        this.commentList = this.$.ajaxGetComment.response;
+      },
+      /**
+       * 发送评论
+       * @return {[type]} [description]
+       */
+      send: function(){
+        if(!this.passCheck()){
+          return false;
+        }
+
+        this.params = JSON.stringify({
+          comment: this.$.comment.value,
+          replyto: null, // 回复先不做
+          nickName: this.$.nickName.value
+        });
+
+        this.$.ajaxSendComment.go();
+
+        return false;
+      },
+      /**
+       * 校验
+       * @return {[type]} [description]
+       */
+      passCheck: function(){
+        var me = this;
+
+        if(!me.$.comment.value){
+          me.$.comment.classList.add('error');
+
+          setTimeout(function(){
+            me.$.comment.classList.remove('error');
+          }, 2000);
+          return false;
+        }
+
+        return true;
+      },
+      /**
+       * 发送评论，得到响应后，处理
+       * @return {[type]} [description]
+       */
+      handleSendCommentResponse: function(){
+        this.commentList = this.$.ajaxSendComment.response;
+      }
+    });})();

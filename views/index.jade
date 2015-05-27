@@ -22,26 +22,18 @@ block content
 
       //- 主页 1
       section(layout vertical)
-        .view(flex,layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}",hero-id='page-main',hero?="{{$.pages.selected === page2Num['page-main'] || $.pages.selected === page2Num['page-main']-1}}")
+        .main-view.view(class="{{plant.file}}-view",flex,layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}",hero-id='page-main',hero?="{{$.pages.selected === page2Num['page-main'] || $.pages.selected === page2Num['page-main']-1}}")
           //- 工具条
           core-toolbar(layout,horizontal?="{{!phoneScreen}}",center?="{{!phoneScreen}}")
             div(layout,justified,horizontal?="{{phoneScreen}}",vertical?="{{!phoneScreen}}")
               paper-fab(icon="apps",mini,title="所有植物",cross-fade,raised,on-tap='{{selectView}}',hero-id='page-all',hero?="{{$.pages.selected === page2Num['page-all'] || lastSelected === page2Num['page-all']}}")
-              paper-fab(
-                icon="{{autoPlay ? 'av:pause' : 'av:play-arrow'}}"
-                mini
-                title="{{autoPlay ? '停止播放' : '自动播放'}}"
-                on-tap="{{toggleAutoPlay}}")
-              paper-fab.notsm(
-                icon="{{musicOn ? 'av:volume-up' : 'av:volume-off'}}"
-                mini
-                title="{{musicOn ? '关闭音乐' : '播放音乐'}}"
-                on-tap="{{toggleMusicOn}}")
-              paper-icon-button.onlysm(icon="arrow-back" title="上一个")
-              paper-icon-button.onlysm(icon="arrow-forward" title="下一个")
+              autoPlay-btn(autoPlay="false", on-tap="{{toggleAutoPlay}}")
+              pi-audio.notsm(path="audio/When You Hold Me Tight.mp3",musicOn = "false")
+              paper-icon-button.pre-btn(icon="arrow-back" title="上一个" on-tap="{{getPre}}")
+              paper-icon-button.next-btn(icon="arrow-forward" title="下一个" on-tap="{{getNext}}")
 
           div.plantArea(cross-fade,raised)
-            pi-plants(cross-fade,raised,plantsClass='boleshu')
+            pi-plants(cross-fade,raised,plantsClass='{{plant.file}}')
 
           //- 菜单
           paper-fab-menu(cross-fade,raised,layout,center?="{{!phoneScreen}}",horizontal?="{{!phoneScreen}}",onlyOpen='{{phoneScreen?false:true}}' icon='menu', closeicon='close', duration='0.3')
@@ -54,11 +46,12 @@ block content
           div.plantName {{plant.name}}
 
       //- 所有植物页面 2
-      section(layout vertical)
+      section(layout?="{{!phoneScreen}}", vertical)
         .view(cross-fade,raised,flex,layout,vertical,hero-id='page-all',hero?="{{$.pages.selected === page2Num['page-all'] || $.pages.selected === page2Num['page-main']}}")
-          div(layout,horizontal,end-justified)
+          core-toolbar.return-bar(horizontal,layout,end-justified)
             paper-icon-button(cross-fade,raised,on-tap='{{back}}',icon="close" title="返回")
-          p 所有植物
+
+          pi-all(on-tap="{{choosePlant}} {{back}}",activePlant="{{activePlant}}")
 
 
       //- 详情页面 3
@@ -72,29 +65,32 @@ block content
                 div {{plant.des}}
               co-img(layout,horizontal,flex)
                 img-slider(layout,horizontal,flex,path="data/{{plant.file}}/images/")
-                //- img(flex src="data/{{plant.file}}/images/0.jpg",on-tap='{{selectView}}',hero-id='page-img',hero?="{{$.pages.selected === page2Num['page-img'] || lastSelected === page2Num['page-img']}}")
               co-video(layout,horizontal,flex)
-                img(src="http://placehold.it/350x150",on-tap='{{selectView}}',hero-id='page-video',hero?="{{$.pages.selected === page2Num['page-video'] || lastSelected === page2Num['page-video']}}")
+                pi-video(layout,horizontal,flex,path="data/{{plant.file}}/videos/0.mp4",poster="images/plantImg/{{plant.file}}.jpg")
               co-data(layout,horizontal,flex)
-                img(flex src="http://placehold.it/350x150",on-tap='{{selectView}}',hero-id='page-data',hero?="{{$.pages.selected === page2Num['page-data'] || lastSelected === page2Num['page-data']}}")
+                //- img(flex src="http://placehold.it/350x150",on-tap='{{selectView}}',hero-id='page-data',hero?="{{$.pages.selected === page2Num['page-data'] || lastSelected === page2Num['page-data']}}")
 
       //- 电子贺卡 4
-      section(layout vertical)
-        .view(flex,layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}",hero-id='page-ecard',hero?="{{$.pages.selected === page2Num['page-ecard'] || $.pages.selected === 1}}")
-          p 我是电子贺卡
-          paper-icon-button(cross-fade,raised,on-tap='{{back}}',icon="close" title="返回")
+      section(layout?="{{!phoneScreen}}",vertical)
+        .ecard-view(flex,layout,vertical,hero-id='page-ecard',hero?="{{$.pages.selected === page2Num['page-ecard'] || $.pages.selected === page2Num['page-main']}}")
+          core-toolbar.return-bar(horizontal,layout,end-justified)
+            paper-icon-button(cross-fade,raised,on-tap='{{back}}',icon="close" title="返回")
+          e-card(layout,flex?="{{!phoneScreen}}",self-center?="{{!phoneScreen}}",horizontal?="{{!phoneScreen}}",center?="{{!phoneScreen}}",center-justified?="{{!phoneScreen}}",path="images/plantImg/{{plant.file}}.jpg")
 
       //- 评论页面 5
-      section(layout vertical)
-        .view(flex,layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}",hero-id='page-comment',hero?="{{$.pages.selected === page2Num['page-comment'] || $.pages.selected === page2Num['page-main']}}")
-          p 我是评论页
-          paper-icon-button(cross-fade,raised,on-tap='{{back}}',icon="close" title="返回")
+      section(layout?="{{!phoneScreen}}",vertical)
+        .comment-view(flex,layout,vertical,hero-id='page-comment',hero?="{{$.pages.selected === page2Num['page-comment'] || $.pages.selected === page2Num['page-main']}}")
+          core-toolbar.return-bar(horizontal,layout,end-justified)
+            paper-icon-button(cross-fade,raised,on-tap='{{back}}',icon="close" title="返回")
+          pi-comment
 
       //- 关于页面 6
-      section(layout vertical)
-        .view(flex,layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}",hero-id='page-about',hero?="{{$.pages.selected === page2Num['page-about'] || $.pages.selected === page2Num['page-main']}}")
-          p 我是关于页面
-          paper-icon-button(cross-fade,raised,on-tap='{{back}}',icon="close" title="返回")
+      section(layout, vertical)
+        .about-view(flex,layout,vertical,hero-id='page-about',hero?="{{$.pages.selected === page2Num['page-about'] || $.pages.selected === page2Num['page-main']}}")
+          core-toolbar.return-bar(horizontal,layout,end-justified)
+            paper-icon-button(cross-fade,raised,on-tap='{{back}}',icon="close" title="返回")
+
+          pi-about
 
       //- 详情-图片页面 7
       section(layout vertical)
@@ -114,40 +110,36 @@ block content
           p 我是数据页面
           paper-icon-button(cross-fade,raised,on-tap='{{backDetail}}',icon="close" title="返回详情页")
 
+    core-ajax#ajax(
+      url="http://localhost:3000/getPlant"
+      body='{{params}}'
+      method='POST'
+      contentType='application/json'
+      handleAs="json"
+      on-core-response="{{handleResponse}}"
+    )
+
 block beforebody
   script(src='/scripts/app.js')
   script.
     addEventListener('template-bound', function(e) {
-      var scope = e.target;
+      var scope = e.target,
+          ajax = document.getElementById('ajax'),
+          autoPlay = false,
+          timer = null;
 
-      // todo 应该是后台传过来的
-      scope.plant = {
-        "name":"宝华玉兰", //植物名
-        "file":"baohuayulan", //文件名 拼音
-        "enName":"Magnolia zenii Cheng",
-        "level":"国家一级保护植物", //濒危等级
-        "des":"宝华玉兰是木兰科木兰属的植物，为中国的特有植物。宝华玉兰全球只剩下38棵了，濒危种。宝华木兰在原产地江苏省宝华山仅残留18株，最大者高11米，胸径45厘米，散生于稀疏的阔叶林中,全部存活在江苏镇江市的宝华山上。由于林下灌木层不断地坡坏，未见更新苗木。若不采取保护措施，将有绝灭的危险。由于宝华玉兰繁殖全靠自然繁殖，没有人工的栽培介入，这也让宝华玉兰的存活量少得惊人。处在自然繁殖情况下的宝华玉兰，在生长早期会成长得很快，但当树龄到了成年之后，生长速度便开始放缓，要等10年左右才能开花结果，如此成长艰难的树木当然难逃绝种的境界。", //描述
-        "img": { //图片
-            "sources":["https://www.google.com.hk/search?q=%E5%AE%9D%E5%8D%8E%E7%8E%89%E5%85%B0&newwindow=1&safe=strict&source=lnms&tbm=isch&sa=X&ei=D0lDVfe7LeG6mAWz44DoBw&ved=0CAkQ_AUoAg&biw=1366&bih=652","http://zh.wikipedia.org/wiki/File:Magnolia_zenii_1.jpg","http://huaban.com/search/?q=%E5%AE%9D%E5%8D%8E%E7%8E%89%E5%85%B0"],
-            "src":[] //只要渲染那里写就可以了
-        },
-        "video": { //视频
-            "sources":["http://tv.cntv.cn/video/C20319/ac142a14694c3dde6785f2860a4e5c44"],
-            "src":[]
-        },
-        "statSum":{ //数量统计
-            "1993": 230000
-        },
-        "statAge":{ //年龄结构统计
-            "10": 0.10
-        },
-        "statArea":{ //分布统计
-            "yunnan": 0.23
-        },
-        "sources":[] //数据来源
-      };
+      /**
+       * 初始化
+       * @return {[type]} [description]
+       */
+      (function(){
+        scope.params = JSON.stringify({});
+        ajax.go();
+      }());
 
-      // 页面匹配
+      /**
+       * 页面切换
+       */
       var page2Num = scope.page2Num={
         'page-main': 1,
         'page-all': 2,
@@ -176,6 +168,72 @@ block beforebody
           this.lastSelected = null;
         }
       }
+
+      /**
+       * 上一个植物
+       * @return {[type]} [description]
+       */
+      scope.getPre = function() {
+        ajax.url = "http://localhost:3000/getPlant";
+        scope.params = JSON.stringify({"prePlant":true});
+        ajax.go();
+        //获得json对象，赋值给 scope.plant
+      }
+
+      /**
+       * 下一个植物
+       * @return {[type]} [description]
+       */
+      scope.getNext = function() {
+        ajax.url = "http://localhost:3000/getPlant";
+        scope.params = JSON.stringify({"nextPlant":true});
+        ajax.go();
+        //获得json对象，赋值给 scope.plant
+      }
+
+      scope.handleResponse = function(){
+        var ajax = document.getElementById('ajax');
+        scope.plant = ajax.response;
+      }
+
+      /**
+       * 自动切换植物
+       * @return {[type]} [description]
+       */
+      scope.toggleAutoPlay = function(){
+        autoPlay = autoPlay ? false : true;
+        if(autoPlay){
+          // 立即变换
+          ajax.url = "http://localhost:3000/getPlant";
+          scope.params = JSON.stringify({"nextPlant":true});
+          ajax.go();
+
+          timer = setInterval(function(){
+            ajax.url = "http://localhost:3000/getPlant";
+            scope.params = JSON.stringify({"nextPlant":true});
+            ajax.go();
+          },4000);
+        }else{
+          clearInterval(timer);
+        }
+      }
+
+      /**
+       * 选择植物
+       * @return {[type]} [description]
+       */
+      scope.choosePlant = function(e){
+        var file = scope.activePlant;
+
+        if(file){
+          setTimeout(function(){ // 植物会变黑，没有渐变效果，所以延迟 todo
+              ajax.url = "http://localhost:3000/getPlant";
+              scope.params = JSON.stringify({"file":file});
+              ajax.go();
+          },1000);
+        }
+      }
+
     })
 
 

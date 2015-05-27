@@ -1,0 +1,56 @@
+:host {
+  display: block;
+}
+.image{
+  height: 320px;
+}
+.inputArea{
+  padding: 10px;
+  background-color: #fff;
+}
+paper-fab{
+  background: #00BAD2;
+}
+.tips{
+  color: red;
+}
+/**
+ * pad and desktop
+ */
+@media(min-width: 768px){
+  .image{
+    width:390px;
+    height: 390px;
+    margin: 5px;
+  }
+  .inputArea{
+    height: 400px;
+    padding: 0 50px;
+    margin-left: 5px;
+    border-left: 2px solid #aaa;
+  }
+  paper-input-decorator{
+    max-height: 70px;
+    width: 300px;
+  }
+  paper-autogrow-textarea{
+    width: 300px;
+    max-height: 45px;
+  }
+  .wrap{
+    padding: 5px;
+    background: #fff;
+    border: 1px solid #aaa;
+    box-shadow: 3px 3px 10px 1px #777;
+  }
+}
+/**
+ * only pad
+ */
+@media(min-width: 768px) and (max-width: 1025px){
+}
+/**
+ * only desktop
+ */
+@media(min-width: 1025px){
+}

@@ -1,0 +1,29 @@
+link(rel='import', href='../../bower_components/polymer/polymer.html')
+
+polymer-element(name='pi-about')
+  template
+    link(rel='stylesheet', href='pi-about.css')
+
+    core-media-query(query="max-width: 768px" queryMatches="{{phoneScreen}}")
+
+    h1.title 植物碎片
+
+    p.des 植物碎片是一个濒危植物的展览，通过三角形的变换，来呈现这些即将逝去的美好。
+
+    .source
+      p 资料来源：
+      ul
+        li
+          a(href="http://rep.iplant.cn/") 中国珍稀濒危植物信息系统
+        li
+          a(href="http://amuseum.cdstm.cn/AMuseum/dangerplant/") 濒危植物网
+        li
+          a(href="baike.baidu.com") 百度百科
+        li
+          a(href="http://www.wikipedia.org/") 维基百科
+
+
+  script.
+    (function () {Polymer({
+
+    });})();

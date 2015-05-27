@@ -1,0 +1,21 @@
+link(rel='import', href='../../bower_components/polymer/polymer.html')
+
+polymer-element(name='autoPlay-btn', attributes="autoPlay")
+  template
+    link(rel='stylesheet', href='autoPlay-btn.css')
+
+    paper-fab(
+      icon="{{autoPlay ? 'av:pause' : 'av:play-arrow'}}"
+      mini
+      title="{{autoPlay ? '停止播放' : '自动播放'}}"
+      on-tap="{{toggleAutoPlay}}")
+
+  script.
+    (function () {Polymer({
+      publish: {
+        autoPlay: false
+      },
+      toggleAutoPlay: function(){
+        this.autoPlay = this.autoPlay ? false : true;
+      }
+    });})();
