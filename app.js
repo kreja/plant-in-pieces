@@ -19,20 +19,24 @@ app.use(route.post('/sendCard', mailer.sendCard)); // 发送电子贺卡
 app.use(route.get('/getComment', comment.getComment)); // 获取评论
 app.use(route.post('/sendComment', comment.sendComment)); // 发送评论
 
+// 无用的测试页面
+app.use(route.get('/test', messages.test));
+
+
 // Serve static files
 app.use(serve(path.join(__dirname, 'public/')));
 
 // 跨域 options 确认
 app.use(function * (next){
-    this.response.set({
-        "Access-Control-Allow-Origin": "*"
-    });
-    this.response.set('Content-Type', 'application/json');
-    this.response.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    this.response.set('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
+  this.response.set({
+      "Access-Control-Allow-Origin": "*"
+  });
+  this.response.set('Content-Type', 'application/json');
+  this.response.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  this.response.set('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
 
-    this.body = '可以跨域';
-    yield next;
+  this.body = '可以跨域';
+  yield next;
 });
 
 // Compresss

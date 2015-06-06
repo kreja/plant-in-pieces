@@ -8,15 +8,17 @@
   float: left;
   width: 100%;
 
-  &:nth-child(4n+1){
-    background: #FFFF8D;
-    .infoBar{
-      background: #FFEB3B;
-    }
+  .replyBox{
+    margin: 5px 5px 0;
+    padding: 5px;
+    font-size: 12px;
   }
 
   &:nth-child(4n+2){
     background: #84FFFF;
+    .replyBox{
+      background: #B7FEFE;
+    }
     .infoBar{
       background: #03A9F4;
     }
@@ -24,6 +26,9 @@
 
   &:nth-child(4n+3){
     background: #FF8A80;
+    .replyBox{
+      background: #FFAEA8;
+    }
     .infoBar{
       background: #FF5252;
     }
@@ -31,13 +36,37 @@
 
   &:nth-child(4n+4){
     background: #B9F6CA;
+    .replyBox{
+      background: #DAFAE3;
+    }
     .infoBar{
       background: #1DE9B6;
     }
   }
+
+  &:nth-child(4n+1){
+    background: #FFFF8D;
+    .replyBox{
+      background: #FEFECC;
+    }
+    .infoBar{
+      background: #FFEB3B;
+    }
+  }
 }
+
+.fade-in{
+  &:nth-child(2){
+    animation: fadein 0.5s;
+  }
+}
+@keyframes fadein{
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
 .commentbox{
-  height: 200px;
+  height: 300px;
   color: #424242;
   text-align: justify;
 
@@ -45,8 +74,22 @@
     background: #1DE9B6 !important;
   }
 }
+.replyto{
+  margin: 0;
+  background: #FEFECC;
+  padding: 0;
+  height: 0;
+  overflow: hidden;
+  transition: all 0.5s;
+
+  &.show{
+    margin: 10px;
+    padding: 10px;
+    height: auto;
+  }
+}
 .infoBar{
-  padding: 10px;
+  padding: 0 10px;
 }
 textarea{
   border: 0;

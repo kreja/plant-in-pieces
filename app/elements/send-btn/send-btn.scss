@@ -1,0 +1,163 @@
+:host {
+  display: block;
+}
+
+:host {
+  display: inline-block;
+  position: relative;
+  outline: none;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  z-index: 0;
+
+  box-sizing: border-box;
+  width: 56px;
+  height: 56px;
+  background: #d23f31;
+  color: #fff;
+  border-radius: 50%;
+  padding: 16px;
+}
+
+:host([mini]) {
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+}
+
+:host([disabled]) {
+  color: #c9c9c9;
+  pointer-events: none;
+  cursor: auto;
+}
+
+#ripple {
+  pointer-events: none;
+  z-index: -1;
+}
+
+#shadow {
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+#icon {
+  display: block;
+  pointer-events: none;
+}
+
+/**
+ * by kely, once clicked, icon flies away
+ */
+#icon{
+  &.clicked{
+    transition: all 1s;
+    animation: flyaway 1.3s linear;
+    top: -80px;
+    right: -1000px;
+  }
+
+  &.flyback{
+    transition: all 1s;
+    animation: flyback 1.3s linear;
+  }
+}
+
+@keyframes fade-background
+{
+  0% {background: red;}
+  20% {background: transparent;}
+  40% {background: red;}
+  60% {background: transparent;}
+  80% {background: red;}
+  100% {background: transparent;}
+}
+
+@keyframes flyaway {
+  0%   { transform: rotate(10deg);
+         top: 16px;
+         right: 16px;
+         height: 24px;
+         width: 24px; }
+  5%   { transform: rotate(10deg);
+         top: 16px;
+         right: -9px;
+         height: 34px;
+         width: 34px; }
+  20%   { transform: rotate(-20deg);
+          top: 16px;
+          right: -139px;
+          height: 46px;
+          width: 46px; }
+  40%   { transform: rotate(10deg);
+          top: -40px;
+          right: -289px;
+          height: 76px;
+          width: 76px;
+          opacity: 1; }
+  100% { transform: rotate(60deg);
+         top: -200px;
+         right: -1000px;
+         height: 0;
+         opacity: 0; }
+}
+
+@keyframes flyback {
+  0% { transform: rotate(60deg);
+         top: -200px;
+         right: 1000px;
+         height: 0;
+         opacity: 0; }
+  5%   { transform: rotate(10deg);
+          top: -40px;
+          right: 619px;
+          height: 76px;
+          width: 76px;
+          opacity: 1; }
+  20%   { transform: rotate(-20deg);
+          top: 10px;
+          right: 389px;
+          height: 56px;
+          width: 56px; }
+  50%   { transform: rotate(10deg);
+         top: -36px;
+         right: 159px;
+         height: 42px;
+         width: 42px; }
+  100%   { transform: rotate(10deg);
+         top: 16px;
+         right: 16px;
+         height: 24px;
+         width: 24px; }
+}
+
+.des{
+  font-size: 12px;
+  white-space: nowrap;
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.clicked.des{
+    opacity: 1;
+  }
+
+/**
+ * pad and desktop
+ */
+@media(min-width: 768px){
+}
+/**
+ * only pad
+ */
+@media(min-width: 768px) and (max-width: 1025px){
+}
+/**
+ * only desktop
+ */
+@media(min-width: 1025px){
+}

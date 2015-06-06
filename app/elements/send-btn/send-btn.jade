@@ -1,0 +1,71 @@
+link(rel='import', href='../../bower_components/polymer/polymer.html')
+
+polymer-element(name='send-btn', extends="paper-button-base", attributes="src icon mini", role="button")
+  template
+    link(rel='stylesheet', href='send-btn.css')
+
+    template(if="{{raised}}")
+      paper-shadow#shadow(fit,animated)
+    core-icon#icon(relative,src="{{src}}",icon="{{icon}}")
+    #des.des 发送中
+
+  script.
+    Polymer({
+
+      publish: {
+
+        /**
+         * The URL of an image for the icon. If the src property is specified,
+         * the icon property should not be.
+         *
+         * @attribute src
+         * @type string
+         * @default ''
+         */
+        src: '',
+
+        /**
+         * Specifies the icon name or index in the set of icons available in
+         * the icon's icon set. If the icon property is specified,
+         * the src property should not be.
+         *
+         * @attribute icon
+         * @type string
+         * @default ''
+         */
+        icon: '',
+
+        /**
+         * Set this to true to style this is a "mini" FAB.
+         *
+         * @attribute mini
+         * @type boolean
+         * @default false
+         */
+        mini: false,
+
+        raised: true,
+        recenteringTouch: true,
+        fill: false
+
+      },
+
+      iconChanged: function(oldIcon) {
+        var label = this.getAttribute('aria-label');
+        if (!label || label === oldIcon) {
+          this.setAttribute('aria-label', this.icon);
+        }
+      },
+
+      flyAway: function(){
+        this.$.icon.classList.remove('flyback');
+        this.$.icon.classList.add('clicked');
+        this.$.des.classList.add('clicked');
+      },
+
+      flyBack: function(){
+        this.$.icon.classList.remove('clicked');
+        this.$.des.classList.remove('clicked');
+        this.$.icon.classList.add('flyback');
+      }
+    });

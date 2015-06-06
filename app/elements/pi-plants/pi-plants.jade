@@ -3,11 +3,20 @@ link(rel='import', href='../../bower_components/polymer/polymer.html')
 polymer-element(name='pi-plants',attributes="plantsClass")
   template
     link(rel='stylesheet', href='pi-plants.css')
-    .wrap(class="{{plantsClass}}")
+    .wrap#wrap(class="{{plantsClass}}")
       - for (var i = 0; i < 30; i++)
           .shard-wrap
             .shard
 
   script.
     (function () {Polymer({
+      ready: function(){
+        var me= this;
+
+        // 定时改变状态
+        setInterval(function(){
+          me.$.wrap.classList.toggle('state-two');
+        },2500);
+
+      }
     });})();

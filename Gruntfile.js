@@ -86,9 +86,26 @@ module.exports = function (grunt) {
         }]
       }
     },
+    compass: {                  // Task
+      dist: {                   // Target
+        // options: {              // Target options
+        //   sassDir: ['<%= yeoman.app %>/styles/{,*/}*', '<%= yeoman.app %>/elements/{,*/}*'],
+        //   cssDir: '<%= yeoman.dist %>',
+        //   environment: 'production'
+        // },
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.app %>',
+          src: ['styles/{,*/}*.{scss,sass}', 'elements/{,*/}*.{scss,sass}'],
+          dest: '<%= yeoman.dist %>',
+          ext: '.css'
+        }]
+      }
+    },
     sass: {
       options: {
-        loadPath: 'bower_components'
+        loadPath: 'bower_components',
+        compass: true
       },
       dist: {
         options: {
@@ -268,5 +285,9 @@ module.exports = function (grunt) {
 
   grunt.registerTask('node', [
     'nodemon'
+  ]);
+
+  grunt.registerTask('outcompass', [
+    'compass'
   ]);
 };

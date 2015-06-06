@@ -1,61 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>贺卡模板</title>
-</head>
-<body>
-  <div>
-    <img src="cid:banner" style="
-    position: absolute;
-    top: -100px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: 0 auto;
-    width: 800px;
-    height: 900px;">
-
-    <!-- 标题 -->
-    <p style="
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        text-align: center;
-        font-weight: bold;
-        height: 200px;
-        line-height: 200px;
-        border: 5px solid #E47D7D;
-        border-bottom: none;
-        margin: 0;
-        padding: 0;
-        text-transform: uppercase;
-        font-size: 60px;
-        color: #F2F9F1;
-        text-shadow: 0 8px 9px #E1FAE2, 0px -2px 1px #E0F9E5;
-        background: rgba(0,0,0,0.5)">
-      来自<span style="font-size: 70px;">植物碎片</span>的问候
-    </p>
-
-    <div style="position: absolute;top:200px;bottom:0;left:0;right:0;background-image: linear-gradient(90deg, rgba(200, 0, 0, 0.3) 50%, transparent 50%), linear-gradient(rgba(200, 0, 0, 0.3) 50%, transparent 50%);
-    background-image: -webkit-linear-gradient(0, rgba(200, 0, 0, 0.3) 50%, transparent 50%), -webkit-linear-gradient(rgba(200, 0, 0, 0.3) 50%, transparent 50%);
-    background-image: -o-linear-gradient(0, rgba(200, 0, 0, 0.3) 50%, transparent 50%), -webkit-linear-gradient(rgba(200, 0, 0, 0.3) 50%, transparent 50%);
-    background-size: 50px 50px;height: 600px;">
-      <!-- 贺卡 -->
-      <div style="width:720px; margin: 50px auto;box-shadow: 3px 3px 10px 1px #777;-webkit-box-shadow: 3px 3px 10px 1px #777;border:5px solid #fff;background:#fff;">
-        <img src="cid:unique@kreja.ee" alt="" style="width:390px;height:390px;float:left;margin: 5px;">
-        <div style="background:#fff;padding:5px;margin-left: 5px;height: 390px;width:300px;float:left;position:relative;border-left:2px solid #aaa;">
-          <img src="cid:stamp" style="width:70px;height:80px;position:absolute;top:5px;right:5px;" alt="">
-          <p style="font-weight:bold;margin:35px 0;">亲爱的{{msg.toName}}:</p>
-          <p style="text-indent: 2em;color:#999;text-align: justify;">{{msg.wishes}}</p>
-          <p style="font-weight:bold;position:absolute;bottom:5px;right:5px;text-align:right;width:100%">来自:{{msg.fromName}}</p>
+  <head>
+    <meta charset="UTF-8">
+    <title>贺卡模板</title>
+  </head>
+  <body>
+    <div>
+      <img src="cid:banner" style="
+      position: absolute;
+      top: -100px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: 0 auto;
+      width: 1000px;
+      height: 1200px;">
+      <div style="overflow:hidden;position: absolute;top:0;bottom:0;left:0;right:0;background-image: linear-gradient(90deg, rgba(200, 0, 0, 0.3) 50%, transparent 50%), linear-gradient(rgba(200, 0, 0, 0.3) 50%, transparent 50%);
+        background-image: -webkit-linear-gradient(0, rgba(200, 0, 0, 0.3) 50%, transparent 50%), -webkit-linear-gradient(rgba(200, 0, 0, 0.3) 50%, transparent 50%);
+        background-image: -o-linear-gradient(0, rgba(200, 0, 0, 0.3) 50%, transparent 50%), -webkit-linear-gradient(rgba(200, 0, 0, 0.3) 50%, transparent 50%);
+        background-size: 50px 50px;height: 800px;padding:150px 0;">
+        <!-- 标题 -->
+        <div class="card-wrapper" style="overflow: hidden;
+          position: relative;
+          height: 400px;
+          width: 700px;
+          background: #EA4955;
+          margin: 0 auto 0;
+          box-shadow: 5px -5px 10px rgba(0,0,0,0.40);">
+          <div class="title" style="position: absolute;
+            z-index: 1;
+            color: #fff;
+            font-size: 32px;
+            font-family: sans-serif;
+            padding: 0 50px;
+            top: 30%;
+            left:0;
+            right:0;
+            text-align: center;
+            text-transform: uppercase;
+            text-shadow: 0px 3px 5px rgba(0,0,0,0.40);">
+            {{msg.fromName}}从植物碎片发来的问候
+          </div>
+          <div class="sub-title" style="position: absolute;
+            z-index: 1;
+            color: #fff;
+            font-size: 20px;
+            font-family: sans-serif;
+            padding: 0 100px;
+            top: 50%;
+            left:0;
+            right:0;
+            text-align: center;
+            text-transform: uppercase;
+            text-shadow: 0px 3px 5px rgba(0,0,0,0.40);">
+            plant in pieces
+          </div>
+          <div>
+            <div class="tri1" style="background: #D83249;position: relative;height: 100px;
+            -webkit-clip-path: polygon(0px 0px,92.372px 55.413px,229.408px 0px);"></div>
+            <div class="tri2" style="background: #B2213B;
+              position: relative;
+              height: 400px;
+              top: -100px;
+            -webkit-clip-path: polygon(92.372px 55.413px,81.926px 192.251px,0px 400px);"></div>
+            <div class="tri3" style="background: #D83249;
+              position: relative;
+              height: 400px;
+              top: -500px;
+            -webkit-clip-path: polygon(81.926px 192.251px,181.506px 258.509px,0px 400px);"></div>
+            <div class="tri4" style="background: #F05A65;
+              position: relative;
+              height: 400px;
+              top: -900px;
+            -webkit-clip-path: polygon(92.372px 55.413px,81.926px 192.251px,402.146px 141.837px);"></div>
+            <div class="tri5" style="background: #F05A65;
+              position: relative;
+              height: 400px;
+              top: -1300px;
+            -webkit-clip-path: polygon(0px 400px,181.506px 258.509px,261.343px 386.125px);"></div>
+            <div class="tri6" style="background: #D83249;
+              position: relative;
+              height: 400px;
+              top: -1700px;
+            -webkit-clip-path: polygon(181.506px 258.509px,261.343px 386.125px,508.111px 242.665px);"></div>
+            <div class="tri7" style="background: #F05A65;
+              position: relative;
+              height: 400px;
+              top: -2100px;
+            -webkit-clip-path: polygon(181.506px 258.509px,402.146px 141.837px,508.111px 242.665px);"></div>
+            <div class="tri8" style="background: #B2213B;
+              position: relative;
+              height: 400px;
+              top: -2500px;
+            -webkit-clip-path: polygon(261.343px 386.125px,344.809px 400px,508.111px 242.665px);"></div>
+            <div class="tri9" style="background: #D83249;
+              position: relative;
+              height: 400px;
+              top: -2900px;
+            -webkit-clip-path: polygon(402.146px 141.837px,452.951px 0px,699.779px 0px);"></div>
+            <div class="tri10" style="background: #F05A65;
+              position: relative;
+              height: 400px;
+              top: -3300px;
+            -webkit-clip-path: polygon(508.111px 242.665px,699.779px 264.271px,699.779px 0px);"></div>
+            <div class="tri11" style="background: #F05A65;
+              position: relative;
+              height: 400px;
+              top: -3700px;
+            -webkit-clip-path: polygon(344.809px 400px,604.688px 321.332px,699.779px 400px);"></div>
+            <div class="tri12" style="background: #B2213B;
+              position: relative;
+              height: 400px;
+              top: -4100px;
+            -webkit-clip-path: polygon(508.111px 242.665px,699.779px 400px,699.779px 264.271px);"></div>
+          </div>
         </div>
-        <div style="clear:both"></div>
+        <!-- 贺卡 -->
+        <div style="width:690px; margin: 0 auto 50px;box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.40);border:5px solid #fff;background:#fff;">
+          <img src="cid:unique@kreja.ee" alt="" style="width:390px;height:390px;float:left;margin: 5px;">
+          <div style="background:#fff;padding:5px;margin-left: 5px;height: 390px;width:270px;float:left;position:relative;border-left:2px solid #aaa;">
+            <img src="cid:stamp" style="width:70px;height:80px;position:absolute;top:5px;right:5px;" alt="">
+            <p style="font-weight:bold;margin:35px 0;">亲爱的{{msg.toName}}:</p>
+            <p style="text-indent: 2em;color:#999;text-align: justify;">{{msg.wishes}}</p>
+            <p style="font-weight:bold;position:absolute;bottom:5px;right:5px;text-align:right;width:100%">来自:{{msg.fromName}}</p>
+          </div>
+          <div style="clear:both"></div>
+        </div>
       </div>
     </div>
-
-  </div>
-
-</body>
+  </body>
 </html>

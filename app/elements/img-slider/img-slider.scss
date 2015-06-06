@@ -1,7 +1,9 @@
 :host {
   display: block;
 }
-
+paper-ripple{
+  z-index: 8;
+}
 .slides {
   padding: 0;
   display: block;
@@ -81,6 +83,7 @@ input:checked + .slide-container .nav label {
   display: block;
   position: absolute;
   text-align: center;
+  z-index: 9;
 }
 
 .nav-dots .nav-dot {
@@ -99,7 +102,7 @@ input:checked + .slide-container .nav label {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
-input#img1:checked ~ .nav-dots label#img-dot-1,
+input#img-1:checked ~ .nav-dots label#img-dot-1,
 input#img-2:checked ~ .nav-dots label#img-dot-2,
 input#img-3:checked ~ .nav-dots label#img-dot-3,
 input#img-4:checked ~ .nav-dots label#img-dot-4,
@@ -113,7 +116,7 @@ input#img-6:checked ~ .nav-dots label#img-dot-6{
  */
 @media(min-width: 768px){
   .nav label {
-    line-height: 240px;
+    line-height: 330px;
   }
 }
 /**

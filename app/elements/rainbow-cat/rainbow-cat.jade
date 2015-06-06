@@ -1,0 +1,36 @@
+link(rel='import', href='../../bower_components/polymer/polymer.html')
+
+polymer-element(name='rainbow-cat')
+  template
+    link(rel='stylesheet', href='rainbow-cat.css')
+
+    .container
+      .float
+        .rope
+        .cloud
+          span.c-one
+          span.c-two
+          span.c-three
+          span.c-four
+        .message
+          .rope
+          .rotulo
+            span 发送一张贺卡吧~
+        .rainbow
+          span.r-one
+          span.r-two
+          span.r-three
+        .cat
+          span.eyes.left
+          span.eyes.right
+          span.mouth
+
+  script.
+    (function () {Polymer({
+      publish: {
+        autoPlay: false
+      },
+      toggleAutoPlay: function(){
+        this.autoPlay = this.autoPlay ? false : true;
+      }
+    });})();

@@ -4,19 +4,49 @@ polymer-element(name='pi-all', attributes="activePlant")
   template
     link(rel='stylesheet', href='pi-all.css')
 
-    #wrap(on-tap="{{active}}")
-      .item(data-file="baohuayulan") 宝华玉兰
-      .item(data-file="boleshu") 伯乐树
-      .item(data-file="changruimulan") 长蕊木兰
-      .item(data-file="chiguoyoushu") 翅果油树
-      .item(data-file="ezhangqiu") 鹅掌楸
-      .item(data-file="gongtong") 珙桐
-      .item(data-file="hongdoushan") 红豆杉
-      .item(data-file="houmianbaoshu") 猴面包树
-      .item(data-file="jinhuacha") 金花茶
-      .item(data-file="putuoeerli") 普陀鹅耳枥
-      .item(data-file="shuiqingshu") 水青树
-      .item(data-file="shuishan") 水杉
+    bg-dot(layout,horizontal)
+
+    figure.spider(layout,horizontal,center-justified,center="")
+      img.mid(src="../../images/onepx.gif")
+      .middle
+        h2#showText
+      .icons(on-mouseover="{{showIcon}}",on-mouseout="{{backToNormal}}",on-tap="{{active}}")
+        span.icon.icon-1(data-title='宝华玉兰', data-file="baohuayulan")
+          img(src="../../images/plantImg/baohuayulan.jpg")
+        span.icon.icon-2(data-title='伯乐树', data-file="boleshu")
+          img(src="../../images/plantImg/boleshu.jpg")
+        span.icon.icon-3(data-title='长蕊木兰', data-file="changruimulan")
+          img(src="../../images/plantImg/changruimulan.jpg")
+        span.icon.icon-4(data-title='翅果油树', data-file="chiguoyoushu")
+          img(src="../../images/plantImg/chiguoyoushu.jpg")
+        span.icon.icon-5(data-title='鹅掌楸', data-file="ezhangqiu")
+          img(src="../../images/plantImg/ezhangqiu.jpg")
+        span.icon.icon-6(data-title='珙桐', data-file="gongtong")
+          img(src="../../images/plantImg/gongtong.jpg")
+        span.icon.icon-7(data-title='红豆杉', data-file="hongdoushan")
+          img(src="../../images/plantImg/hongdoushan.jpg")
+        span.icon.icon-8(data-title='猴面包树', data-file="houmianbaoshu")
+          img(src="../../images/plantImg/houmianbaoshu.jpg")
+        span.icon.icon-9(data-title='金花茶', data-file="jinhuacha")
+          img(src="../../images/plantImg/jinhuacha.jpg")
+        span.icon.icon-10(data-title='普陀鹅耳枥', data-file="putuoeerli")
+          img(src="../../images/plantImg/putuoeerli.jpg")
+        span.icon.icon-11(data-title='水青树', data-file="shuiqingshu")
+          img(src="../../images/plantImg/shuiqingshu.jpg")
+        span.icon.icon-12(data-title='水杉', data-file="shuishan")
+          img(src="../../images/plantImg/shuishan.jpg")
+        span.icon.icon-13(data-title='桫椤', data-file="suoluo")
+          img(src="../../images/plantImg/suoluo.jpg")
+        span.icon.icon-14(data-title='喜树', data-file="xishu")
+          img(src="../../images/plantImg/xishu.jpg")
+        span.icon.icon-15(data-title='银杉', data-file="yinshan")
+          img(src="../../images/plantImg/yinshan.jpg")
+
+    .des.notsm
+      .letter(data-letter="植") 植
+      .letter(data-letter="物") 物
+      .letter(data-letter="碎") 碎
+      .letter(data-letter="片") 片
 
   script.
     (function () {Polymer({
@@ -24,10 +54,73 @@ polymer-element(name='pi-all', attributes="activePlant")
         activePlant: ""
       },
       ready: function(){
-        this.$.wrap.addEventListener();
+        //- this.$.wrap.addEventListener();
       },
       active: function(e){
         var me = e.target;
-        this.activePlant = me.getAttribute('data-file');
+        // 不是 hover 在图片上，就退出
+        if(me.tagName != "IMG"){
+          return
+        }
+
+        var icon = me.parentNode;
+        this.activePlant = icon.getAttribute('data-file');
+      },
+      /**
+       * 暗掉其他的图标和线
+       * 高亮匹配的图标和线
+       * 中间显示对应文字
+       */
+      showIcon: function(e){
+        // 不是 hover 在图片上，就退出
+        if(e.target.tagName != "IMG"){
+          return
+        }
+
+        var plant = e.target, // 被 hover 的植物图片
+            me = e.target.parentNode; // 被 over 的圆圈
+
+        var className = me.getAttribute('data-class'),
+          title = me.getAttribute('data-title'),
+          plantSrc = plant.getAttribute('src');
+
+        this.shadowRoot.querySelector('.mid').src = plantSrc;
+        this.shadowRoot.querySelector('.mid').classList.add('active'); // 激活中间图片
+        this.shadowRoot.querySelector('.middle').classList.add('active'); // 圆圈激活
+        this.$.showText.innerHTML = title; // 显示文字
+
+        var temps = this.shadowRoot.querySelectorAll('.icons .icon');
+
+        for(var i = 0; i < temps.length; i++){
+          temps[i].classList.remove('active');
+          temps[i].classList.add('disabled');
+
+          if(temps[i].getAttribute('data-class') === className){ // 高亮 线
+            temps[i].classList.add('active');
+          }
+        }
+
+        me.classList.add("active");
+      },
+      /**
+       * 鼠标移出，返回正常
+       * @return {[type]} [description]
+       */
+      backToNormal: function(e){
+        var me = e.target;
+
+        var temps = this.shadowRoot.querySelectorAll('.icons .icon');
+
+        for(var i = 0; i < temps.length; i++){
+          temps[i].classList.remove('active');
+          temps[i].classList.remove('disabled');
+        }
+
+        this.shadowRoot.querySelector('.middle').classList.remove('active');
+        this.shadowRoot.querySelector('.mid').classList.remove('active'); // 中间图片去激活
+        me.classList.remove("active");
+        me.classList.remove("disabled");
+        this.$.showText.innerHTML = "";
       }
     });})();
+

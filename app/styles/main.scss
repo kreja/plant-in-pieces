@@ -23,7 +23,8 @@ pi-welcome{
 .des{
   text-align: center;
   color: #AD9570;
-  margin: 20px 0 150px;
+  margin: 20px 32px 150px;
+  font-size: 12px;
 }
 paper-button[raised].btn{
   background: #DAC9B2;
@@ -38,6 +39,7 @@ paper-button[raised].btn{
 }
 
 .main-view{
+  overflow: hidden;
   &:after{
     content: "";
     opacity: .34;
@@ -57,26 +59,43 @@ paper-button[raised].btn{
     pointer-events: none;
   }
 }
-.detail-view{
-  background: #424242;
+.all-view{
+  background: #fff;
+  min-height: 100%;
   .return-bar{
-    background: #00BAD2;
+    background: #161512;
+  }
+  .wrap{
+    padding: 0;
+  }
+}
+.detail-view{
+  background: #ddd;
+  min-height: 100%;
+  .return-bar{
+    background: #3F51B5;
   }
 }
 .ecard-view{
-  background: #F4C3C5;
+  background: #FFD7D9;
+  min-height: 100%;
   .return-bar{
     background: #FF9EA2;
   }
 }
 .comment-view{
   background: #424242;
+  min-height: 100%;
   .return-bar{
     background: #B388FF;
+  }
+  .wrap{
+    padding: 5px 0;
   }
 }
 .about-view{
   background: #63C5AB;
+  min-height: 100%;
   .return-bar{
     background: #26B38E;
   }
@@ -165,8 +184,30 @@ paper-fab-menu  /deep/  paper-fab{
 
 .return-bar{
   background: #00BAD2;
-  margin-bottom: 10px;
+  height: 64px;
+  margin:0;
+  padding: 0 20px;
+  z-index: 100;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
+
+.wrap{
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  padding-top: 10px;
+}
+
+rainbow-cat{
+  position: absolute;
+  top: 100px;
+  right: 10px;
+}
+
+pi-all{
+  overflow: auto;
+}
+
 
 /**
  * pad and desktop
@@ -180,6 +221,7 @@ paper-fab-menu  /deep/  paper-fab{
   }
   .des{
     margin: 20px 0 50px;
+    font-size: 16px;
   }
   .plantArea{
     width: 500px;
@@ -216,12 +258,20 @@ paper-fab-menu  /deep/  paper-fab{
       margin: 20px 0;
     }
   }
+  .wrap{
+    padding: 0;
+  }
   .main-view{
     &:after{
       width: 600px;
       height: 600px;
       margin-left: -300px;
       margin-top: -300px;
+    }
+  }
+  .comment-view{
+    .wrap{
+      padding: 5px;
     }
   }
 }

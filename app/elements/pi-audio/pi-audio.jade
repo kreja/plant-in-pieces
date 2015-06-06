@@ -1,10 +1,10 @@
 link(rel='import', href='../../bower_components/polymer/polymer.html')
 
-polymer-element(name='pi-audio', attributes="musicOn path")
+polymer-element(name='pi-audio', attributes="autoPlay path")
   template
     link(rel='stylesheet', href='pi-audio.css')
 
-    audio#audio(src="{{path}}",loop="loop")
+    audio#audio(src="{{path}}",preload="metadata",loop="loop",autoplay?="{{autoPlay}}")
     paper-fab(
       icon="{{musicOn ? 'av:volume-up' : 'av:volume-off'}}"
       mini
@@ -13,13 +13,35 @@ polymer-element(name='pi-audio', attributes="musicOn path")
 
   script.
     (function () {Polymer({
+      musicOn: false,
       publish: {
-        musicOn: false
+        autoPlay: false,
+      },
+      ready: function(){
+        this.loop();
+      },
+      autoPlayChanged: function(){
+        this.musicOn = this.autoPlay;
       },
       musicOnChanged: function(){
         this.musicOn ? this.$.audio.play() : this.$.audio.pause();
       },
       toggleMusicOn: function(){
         this.musicOn = this.musicOn ? false : true;
+      },
+      /**
+       * 循环播放
+       * @return {[type]} [description]
+       */
+      loop: function(){
+          var me = this;
+        setTimeout(function(){
+          console.log('进入循环',me.$.audio.duration,me.$.audio.currentTime);
+        },2000);
+        this.$.audio.addEventListener('ended', function() {
+            console.log('循环啦');
+            this.currentTime = 0;
+            this.play();
+        }, false);
       }
     });})();

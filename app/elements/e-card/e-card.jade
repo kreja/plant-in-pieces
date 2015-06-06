@@ -14,7 +14,7 @@ polymer-element(name='e-card',attributes="path")
       on-core-response="{{handleResponse}}"
     )
 
-    .wrap(layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}")
+    .wrap.shadow(layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}")
 
       img.image(src="{{path}}")
 
@@ -27,18 +27,21 @@ polymer-element(name='e-card',attributes="path")
         paper-input#toEmail(label="收件人邮箱",floatingLabel,on-input="{{checkEmail}}")
         div(layout, horizontal)
           #tips.tips(flex)
-          paper-fab#sendBtn(self-end,icon="send",title="发送",on-tap="{{send}}")
+          send-btn#sendBtn(self-end,icon="send",title="发送",on-tap="{{send}}")
+
+    paper-toast#toast.capsule(text="{{toastText}}")
 
   script.
     (function () {Polymer({
       passedCheck: false, // 是否通过校验了
+      isSending: false, // 正在发送
       /**
        * 按下发送
        * @return {[type]} [description]
        */
       send: function(){
         // 校验邮箱
-        if(!this.checkEmail()){
+        if(!this.checkEmail() || this.isSending){
           return false;
         }
 
@@ -50,7 +53,10 @@ polymer-element(name='e-card',attributes="path")
           imgPath: this.path
         });
 
+        this.$.sendBtn.flyAway();
         this.$.ajax.go();
+
+        this.isSending = true;
 
         return false;
       },
@@ -70,5 +76,15 @@ polymer-element(name='e-card',attributes="path")
         }
 
         return this.passedCheck;
+      },
+      /**
+       * 处理结果
+       */
+      handleResponse: function(){
+        this.isSending = false;
+        this.$.sendBtn.flyBack();
+        this.toastText = this.$.ajax.response.msg;
+        this.$.toast.show();
       }
+
     });})();

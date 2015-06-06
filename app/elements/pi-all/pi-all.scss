@@ -1,26 +1,403 @@
+@import "compass/css3";
+
+$lightergrey: #f5f5f5;
+$grey: darken($lightergrey, 15%);
+$primary: rgba(255,255,255,0.3);
+
+$count: 15;
+$icon_size: 70px;
+$parent_size: 450px;
+$rotation: (360 / $count);
+
+$transition: cubic-bezier(0.285, 1.65, 0.605, 0.89);
+$transition-duration: .3s;
+$animation-duration: .5s;
+
 :host {
   display: block;
 }
-.item{
-  background: #EF9F64;
-  color: #fff;
-  height: 100px;
-  line-height: 100px;
-  text-align: center;
-  margin-bottom: 10px;
-  cursor: pointer;
+
+.notsm{
+  display: none !important;
 }
+
+bg-dot{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+
+/*des*/
+
+.des{
+  position: absolute;
+  right: 100px;
+  width: 70px;
+  height: 400px;
+  overflow: hidden;
+  animation: typing 2s steps(21, end);
+}
+
+@-webkit-keyframes typing { from { height: 0; } }
+
+.letter{
+  display: inline-block;
+  font-weight: 900;
+  font-size: 60px;
+  position: relative;
+  color: transparent;
+  transform-style: preserve-3d;
+  perspective: 400;
+  z-index: 1;
+}
+
+
+.letter:before, .letter:after{
+  position:absolute;
+  content: attr(data-letter);
+  transform-origin: top left;
+  top:0;
+  left:0;
+}
+.letter, .letter:before, .letter:after{
+  transition: all 0.3s ease-in-out;
+}
+.letter:before{
+  color: #fff;
+  text-shadow:
+    -1px 0px 1px rgba(255,255,255,.8),
+    1px 0px 1px rgba(0,0,0,.8);
+  z-index: 3;
+  transform:
+    rotateX(0deg)
+    rotateY(-15deg)
+    rotateZ(0deg);
+}
+.letter:after{
+  color: rgba(0,0,0,.11);
+  z-index:2;
+  transform:
+    scale(1.08,1)
+    rotateX(0deg)
+    rotateY(0deg)
+    rotateZ(0deg)
+    skew(0deg,1deg);
+}
+.letter:hover:before{
+  color: #fafafa;
+  transform:
+    rotateX(0deg)
+    rotateY(-40deg)
+    rotateZ(0deg);
+}
+.letter:hover:after{
+  transform:
+    scale(1.08,1)
+    rotateX(0deg)
+    rotateY(40deg)
+    rotateZ(0deg)
+    skew(0deg,22deg);
+}
+
+
+/*figure*/
+
+img.mid{
+  display: none;
+}
+
+.middle{
+  display: none;
+}
+
+.icons{
+  z-index: 100;
+}
+.icon{
+  z-index: 100;
+  img{
+    width: calc(50% - 50px);
+    margin: 20px;
+    border: 5px solid rgba(255,255,255,0);
+    border-radius: 100%;
+    animation: fade-shadow 3.3s linear infinite;
+  }
+}
+
+/**
+ * box-shadow keyframe
+ */
+@keyframes fade-shadow
+{
+  0% {box-shadow: 0 0 10px rgba(0,0,0,0.5);}
+  50% {box-shadow: 0 10px 30px rgba(0,0,0,0.5);}
+  100% {box-shadow: 0 0 10px rgba(0,0,0,0.5);}
+}
+
+@for $i from 1 through $count {
+  $delay: ($i - 1)/5 ;
+
+  .icon-#{$i} img{
+    animation-delay: #{$delay}s;
+  }
+}
+
+
+
 /**
  * pad and desktop
  */
 @media(min-width: 768px){
-  .item{
-    margin: 10px;
-    width: calc(100%/6 - 24px);
-    border-radius: 10px;
-    height: 100px;
-    display: inline-block;
+  .notsm{
+    display: block !important;;
   }
+
+  /*
+  * !! putOnCircle mixin used from http://codepen.io/HugoGiraudel/pen/Bigqr !!
+  * Some helping mixins for easy animation and keyframes
+  */
+  @mixin putOnCircle($nb-items, $circle-size, $item-size) {
+    $half-item: $item-size / 2;
+    $half-parent: $circle-size / 2;
+
+    @include border-radius(100%);
+    position: relative;
+    width:  $circle-size;
+    height: $circle-size;
+    padding: 0;
+    @include box-sizing(content-box);
+
+    > * {
+      display: block;
+      position: absolute;
+      top:  50%;
+      left: 50%;
+      width:  $item-size;
+      height: $item-size;
+      margin: -$half-item;
+
+      $angle: 360 / $nb-items;
+      $rot: 0;
+      @for $i from 1 to $nb-items+1 {
+
+        &:nth-child(#{$i}) {
+          @include transform(rotate(#{$rot}deg) translate($half-parent) rotate(-#{$rot}deg));
+        }
+
+        $rot: $rot + $angle;
+      }
+    }
+  }
+
+  @mixin keyframes($name) {
+    @-webkit-keyframes #{$name} {
+      @content;
+    }
+    @-moz-keyframes #{$name} {
+      @content;
+    }
+    @-ms-keyframes #{$name} {
+      @content;
+    }
+    @keyframes #{$name} {
+      @content;
+    }
+  }
+
+  @mixin animation($animation...) {
+    -o-animation: $animation;
+    -ms-animation: $animation;
+    -moz-animation: $animation;
+    -webkit-animation: $animation;
+    animation: $animation;
+  }
+
+  /*
+  * Loop through every icon and make a keyframe for it.
+  * With every iteration rotate it by 30deg (360 / amount of icons)
+  * Also set the start position to 0%
+  */
+  @for $i from 1 through $count {
+    @include keyframes(keyframe-#{$i}) {
+      from {
+        @include transform(rotate(#{$i * $rotation}deg) translate(0%) rotate(-#{$i * $rotation}deg) translateZ(0));
+        visibility: hidden;
+      }
+
+      to {
+        @include transform(rotate(#{$i * $rotation}deg) translate($parent_size / 2) rotate(-#{$i * $rotation}deg) translateZ(0));
+        visibility: visible;
+      }
+    }
+  }
+
+  /*
+  * Make a keyframe for the lines.
+  * This will animate it from 0 to 190px wide
+  */
+  @include keyframes(line) {
+    from {
+      width: 0px;
+    }
+
+    to {
+      width: 190px;
+    }
+  }
+
+  /*
+  * The "spider" it self
+  */
+  .spider {
+    height: 525px;
+    position: relative;
+    width: 525px;
+
+    img.mid{
+      @include border-radius(100%);
+      @include transition(all $transition-duration cubic-bezier(0.3, 1.65, 0.42, 1.135));
+      display: block;
+      margin: 0;
+      padding: 0;
+      height: 0;
+      width: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 99;
+    }
+
+    img.mid.active{
+      margin: -153px;
+      height: 330px;
+      width: 330px;
+      border: 4px solid rgba(255,255,255,0);
+      box-shadow: 0 0 100px #fff;
+    }
+
+    .middle {
+      @include border-radius(100%);
+      @include transition(all $transition-duration cubic-bezier(0.3, 1.65, 0.42, 1.135));
+      background: none;
+      display: block;
+      margin: 0;
+      padding: 10px;
+      height: 0px;
+      line-height: 160px;
+      position: absolute;
+      top: 50%; left: 50%;
+      text-align: center;
+      width: 0;
+      z-index: 500;
+      overflow: hidden;
+      h2{
+        opacity: 0;
+        margin: 0;
+      }
+    }
+
+    .middle.active{
+      width: 160px;
+      height: 30px;
+      margin: -5px -73px;
+      box-shadow: 0 15px 35px -10px #fff;
+      h2{
+        height: 100%;
+        line-height: 100%;
+        opacity: 1;
+        color: #fff;
+        font-size: 28px;
+      }
+    }
+
+    .icons {
+      @include putOnCircle($count, $parent_size, $icon_size);
+
+      .icon {
+        @include border-radius(100%);
+        @include transition(all $transition-duration cubic-bezier(.54,.38,.89,.41));
+        /*background: $primary;*/
+        color: white;
+        cursor: pointer;
+        display: block;
+        font-size: 1.8rem;
+        height: $icon_size;
+        line-height: $icon_size;
+        position: absolute;
+        margin: -28px;
+        text-align: center;
+        visibility: hidden;
+        width: $icon_size;
+        z-index: 100;
+        /*overflow: hidden;*/
+
+        &:hover {
+          border-color: $lightergrey;
+        }
+
+        &.disabled { @include opacity(.35); }
+        &.active { @include opacity(1); }
+
+        /*
+        * Loop through the icons and include the animation
+        */
+        @for $i from 1 through $count {
+          $delay: (($i - 1) / 9);
+
+          &.icon-#{$i} {
+            @include animation(keyframe-#{$i} $animation-duration $transition #{$delay}s forwards);
+          }
+        }
+
+        img{
+          width: $icon_size;
+          height: $icon_size;
+          margin: 0;
+          border: 8px solid rgba(255,255,255,0);
+          /*box-shadow: 0 0 20px #fff;*/
+          box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+      }
+    }
+
+    .lines {
+      .line {
+        @include transition(all $transition-duration cubic-bezier(0.455, 0.03, 0.515, 0.955));
+        // include transform-origin doesnt work well
+        -webkit-transform-origin: 2px 2px 0;
+        -moz-transform-origin: 2px 2px 0;
+        -ms-transform-origin: 2px 2px 0;
+        -o-transform-origin: 2px 2px 0;
+        transform-origin: 2px 2px 0;
+        border-bottom: 3px dashed $grey;
+        display: block;
+        height: 0px;
+        position: absolute;
+        top: 50%; left: 50%;
+        width: 0;
+
+        &.disabled { @include opacity(.3); }
+        &.active { @include opacity(1); }
+
+        /*
+        * Loop through the lines.
+        * Rotate the lines and include animation
+        */
+        @for $i from 1 through $count {
+          $delay: (($i - 1) / 9);
+
+          &.line-#{$i} {
+            @include transform(rotate(0deg + ($i * $rotation)));
+            @include animation(line $animation-duration $transition #{$delay}s forwards);
+          }
+        }
+      }
+    }
+  }
+
 }
 /**
  * only pad

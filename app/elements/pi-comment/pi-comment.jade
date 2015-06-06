@@ -25,28 +25,33 @@ polymer-element(name='pi-comment')
     )
 
     .box.commentbox(layout, vertical)
+      .replyto#replytoBox(layout,horizontal)
+        #replyto(flex)
+        paper-fab(mini,self-top,icon="cancel",title="取消回复",on-tap="{{cancelReply}}")
       textarea#comment(flex, placeholder="请输入评论",on-input="{{passCheck}}")
       .infoBar(layout,horizontal)
         paper-input#nickName(label="请输入昵称:",floatingLabel,flex)
         paper-fab#sendBtn(self-end,icon="send",title="发送",on-tap="{{send}}")
-    .wrap
+    .wrap#wrap
       template(repeat="{{item in commentList}}")
-        .box(layout, vertical)
+        .box(class="{{boxClass}}",layout, vertical)
+          template(if="{{item.replyto}}")
+            .replyBox {{item.replyto}}
           .commentShowBox(flex) {{item.comment}}
           .infoBar(layout,horizontal)
             p(flex) {{item.nickName}}
-            paper-fab#replyBtn(mini,self-end,icon="reply",title="回复",on-tap="{{reply}}")
+            paper-fab#replyBtn(mini,self-end,icon="reply",title="回复",on-tap="{{reply}}",data-reply="{{item.nickName}}：{{item.comment}}")
 
   script.
     (function () {Polymer({
       commentList: [], // 评论列表
+      boxClass: "", // 类
       /**
        * 初始化
        * @return {[type]} [description]
        */
       ready: function(){
         this.$.ajaxGetComment.go(); // 自动获取评论
-
       },
       /**
        * 异步获取评论列表之后
@@ -64,10 +69,13 @@ polymer-element(name='pi-comment')
           return false;
         }
 
+        // 给 box 加个类，以便新的评论便签可以渐变出现
+        this.boxClass = "fade-in";
+
         this.params = JSON.stringify({
           comment: this.$.comment.value,
-          replyto: null, // 回复先不做
-          nickName: this.$.nickName.value
+          replyto: this.$.replyto.innerHTML,
+          nickName: this.$.nickName.value || '游客'
         });
 
         this.$.ajaxSendComment.go();
@@ -98,5 +106,31 @@ polymer-element(name='pi-comment')
        */
       handleSendCommentResponse: function(){
         this.commentList = this.$.ajaxSendComment.response;
+        this.afterSend();
+      },
+      /**
+       * 发送后的处理
+       */
+      afterSend: function(){
+        this.$.comment.value = "";
+        this.$.nickName.value = "";
+        this.cancelReply();
+      },
+      /**
+       * 回复，把回复的评论加载到 留言输入框
+       */
+      reply: function(e){
+        var me = e.target;
+        var replyto = me.getAttribute('data-reply');
+        this.$.replyto.innerHTML = replyto;
+        this.$.replytoBox.classList.add('show');
+        this.$.comment.focus();
+      },
+      /**
+       * 取消回复
+       */
+      cancelReply: function(){
+        this.$.replyto.innerHTML = "";
+        this.$.replytoBox.classList.remove('show');
       }
     });})();

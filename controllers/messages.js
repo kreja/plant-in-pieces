@@ -30,6 +30,14 @@ module.exports.home = function *home() {
 };
 
 /**
+ * 测试页面
+ * @yield {[type]} [description]
+ */
+module.exports.test = function *home() {
+  this.body = yield render('test.jade', {});
+};
+
+/**
  * 获得植物信息
  * 不带参数，返回第一个植物
  * 参数：

@@ -7,16 +7,76 @@ polymer-element(name='page-detail')
     core-media-query(
       query="max-width: 768px"
       queryMatches="{{phoneScreen}}")
-    div(layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}",flex?="{{!phoneScreen}}")
-      .box.txt-box(cross-fade,raised,flex?="{{!phoneScreen}}",horizontal layout center-justified center)
-        <content select="co-txt"></content>
-      .box.img-box(cross-fade,raised,flex?="{{!phoneScreen}}",horizontal layout)
-        <content select="co-img"></content>
-    div(layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}",flex?="{{!phoneScreen}}")
-      .box.video-box(cross-fade,raised,flex?="{{!phoneScreen}}",horizontal layout)
-        <content select="co-video"></content>
-      .box.data-box(cross-fade,raised,flex?="{{!phoneScreen}}",horizontal layout)
-        <content select="co-data"></content>
+
+
+    //- 列1
+    .col(layout,vertical,flex?="{{!phoneScreen}}")
+      //- 小方格1
+      .area.txt-area(layout,vertical)
+        .box(cross-fade,raised,flex?="{{!phoneScreen}}",horizontal layout center-justified center)
+          paper-ripple(fit,class="recenteringTouch")
+          content(select="co-txt")
+        .three(layout,horizontal)
+          .box.deco-box(cross-fade,raised)
+            paper-ripple(fit,class="recenteringTouch")
+          .box.deco-box(cross-fade,raised,self-center)
+            paper-ripple(fit,class="recenteringTouch")
+          .box.deco-box(cross-fade,raised,self-end)
+            paper-ripple(fit,class="recenteringTouch")
+
+      //- 小方格2
+      .area.video-area(layout,vertical)
+        .box(cross-fade,raised,flex?="{{!phoneScreen}}",horizontal layout)
+          paper-ripple(fit,class="recenteringTouch")
+          content(select="co-video")
+        .two(layout,horizontal)
+          .box.deco-box(cross-fade,raised,)
+            paper-ripple(fit,class="recenteringTouch")
+          .box.deco-box.mini(cross-fade,raised,)
+            paper-ripple(fit,class="recenteringTouch")
+
+    //- 列2
+    .col(layout,vertical,flex?="{{!phoneScreen}}")
+      //- 小方格3
+      .area.img-area(layout,vertical)
+        .two(layout,horizontal)
+          .box.deco-box.mini(cross-fade,raised)
+            paper-ripple(fit,class="recenteringTouch")
+          .box.deco-box(cross-fade,raised)
+            paper-ripple(fit,class="recenteringTouch")
+        .box(cross-fade,raised,flex?="{{!phoneScreen}}",horizontal layout)
+          paper-ripple(fit,class="recenteringTouch")
+          content(select="co-img")
+
+      //- 小方格4
+      .area.data-area(layout,vertical)
+        .three(layout,horizontal)
+          .box.deco-box(cross-fade,raised)
+            paper-ripple(fit,class="recenteringTouch")
+          .box.deco-box(cross-fade,raised,self-center)
+            paper-ripple(fit,class="recenteringTouch")
+          .box.deco-box(cross-fade,raised,self-end)
+            paper-ripple(fit,class="recenteringTouch")
+        .box(cross-fade,raised,flex?="{{!phoneScreen}}",horizontal layout)
+          paper-ripple(fit,class="recenteringTouch")
+          content(select="co-data")
+
+    //- save 四方布局
+    //- div(layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}",flex?="{{!phoneScreen}}")
+    //-   .box.txt-box(cross-fade,raised,flex?="{{!phoneScreen}}",horizontal layout center-justified center)
+    //-     paper-ripple(fit,class="recenteringTouch")
+    //-     content(select="co-txt")
+    //-   .box.img-box(cross-fade,raised,flex?="{{!phoneScreen}}",horizontal layout)
+    //-     paper-ripple(fit,class="recenteringTouch")
+    //-     content(select="co-img")
+    //- div(layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}",flex?="{{!phoneScreen}}")
+    //-   .box.video-box(cross-fade,raised,flex?="{{!phoneScreen}}",horizontal layout)
+    //-     paper-ripple(fit,class="recenteringTouch")
+    //-     content(select="co-video")
+    //-   .box.data-box(cross-fade,raised,flex?="{{!phoneScreen}}",horizontal layout)
+    //-     paper-ripple(fit,class="recenteringTouch")
+    //-     content(select="co-data")
+
 
   script.
     (function () {Polymer({
