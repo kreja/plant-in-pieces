@@ -27,14 +27,14 @@ block content
           core-toolbar(layout,horizontal?="{{!phoneScreen}}",center?="{{!phoneScreen}}")
             div(layout,justified,horizontal?="{{phoneScreen}}",vertical?="{{!phoneScreen}}")
               paper-fab(icon="apps",mini,title="所有植物",cross-fade,raised,on-tap='{{selectView}}',hero-id='page-all',hero?="{{$.pages.selected === page2Num['page-all'] || lastSelected === page2Num['page-all']}}")
-              autoPlay-btn(autoPlay="false", on-tap="{{toggleAutoPlay}}")
+              autoPlay-btn#autoPlayBtn(autoPlay="false", on-tap="{{toggleAutoPlay}}")
               //- pi-audio.notsm(path="{{config.bgmPath}}",autoPlay="{{!phoneScreen}}")
               pi-audio.notsm(path="{{config.bgmPath}}",autoPlay="false")
               paper-icon-button.pre-btn(icon="arrow-back" title="上一个" on-tap="{{getPre}}")
               paper-icon-button.next-btn(icon="arrow-forward" title="下一个" on-tap="{{getNext}}")
 
           div.plantArea(cross-fade,raised,on-touchstart="{{handleTouchStart}}",on-touchmove="{{handleTouchMove}}",on-touchend="{{handleTouchEnd}}",style="z-index:0")
-            pi-plants(cross-fade,raised,plantsClass='{{plant.file}}')
+            pi-plants#plant(cross-fade,raised,plantsClass='{{plant.file}}',stateInterval="{{config.stateInterval}}")
 
           //- 菜单
           paper-fab-menu(cross-fade,raised,layout,center?="{{!phoneScreen}}",horizontal?="{{!phoneScreen}}",onlyOpen='{{phoneScreen?false:true}}' icon='menu', closeicon='close', duration='0.3')
@@ -53,7 +53,7 @@ block content
           core-toolbar.return-bar(horizontal,layout,end-justified,center)
             paper-icon-button(cross-fade,raised,on-tap='{{back}}',icon="close" title="返回")
           .wrap(flex,layout,vertical)
-            pi-all(flex,cross-fade,raised,layout,horizontal,center-justified,center,on-tap="{{choosePlant}}",activePlant="{{activePlant}}")
+            pi-all(flex,cross-fade,raised,layout,horizontal,center-justified,center?="{{!phoneScreen}}",on-tap="{{choosePlant}}",activePlant="{{activePlant}}")
 
 
       //- 详情页面 3
@@ -70,7 +70,7 @@ block content
               co-video(layout,horizontal,flex)
                 pi-video(layout,horizontal,flex,path="data/{{plant.file}}/videos/0.mp4",poster="images/plantImg/{{plant.file}}.jpg")
               co-data(layout,horizontal,flex)
-                img(flex src="http://placehold.it/350x150",on-tap='{{selectView}}',hero-id='page-data',hero?="{{$.pages.selected === page2Num['page-data'] || lastSelected === page2Num['page-data']}}")
+
 
       //- 电子贺卡 4
       section(layout,vertical)
@@ -78,7 +78,7 @@ block content
           core-toolbar.return-bar(horizontal,layout,end-justified,center)
             paper-icon-button(cross-fade,raised,on-tap='{{back}}',icon="close" title="返回")
           .wrap(flex,layout,horizontal)
-            e-card(layout,flex?="{{!phoneScreen}}",self-center?="{{!phoneScreen}}",horizontal?="{{!phoneScreen}}",center?="{{!phoneScreen}}",center-justified?="{{!phoneScreen}}",path="images/plantImg/{{plant.file}}.jpg")
+            e-card(layout,flex,self-center?="{{!phoneScreen}}",horizontal?="{{!phoneScreen}}",center?="{{!phoneScreen}}",center-justified?="{{!phoneScreen}}",path="images/plantImg/{{plant.file}}.jpg")
             template(if="{{!phoneScreen}}")
               rainbow-cat
 
@@ -98,24 +98,6 @@ block content
           .wrap(flex)
             pi-about
 
-      //- 详情-图片页面 7
-      section(layout vertical)
-        .view(flex,layout,vertical,hero-id='page-img',hero?="{{$.pages.selected === page2Num['page-img'] || $.pages.selected === page2Num['page-detail']}}")
-          core-toolbar.return-bar(horizontal,layout,end-justified)
-            paper-icon-button(cross-fade,raised,on-tap='{{back}}',icon="close" title="返回")
-
-      //- 详情-视频页面 8
-      section(layout vertical)
-        .view(flex,layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}",hero-id='page-video',hero?="{{$.pages.selected === page2Num['page-video'] || $.pages.selected === page2Num['page-detail']}}")
-          p 我是视频页面
-          paper-icon-button(cross-fade,raised,on-tap='{{backDetail}}',icon="close" title="返回详情页")
-
-      //- 详情-数据可视化页面 9
-      section(layout vertical)
-        .view(flex,layout,vertical?="{{phoneScreen}}",horizontal?="{{!phoneScreen}}",hero-id='page-data',hero?="{{$.pages.selected === page2Num['page-data'] || $.pages.selected === page2Num['page-detail']}}")
-          p 我是数据页面
-          paper-icon-button(cross-fade,raised,on-tap='{{backDetail}}',icon="close" title="返回详情页")
-
     core-ajax#ajax(
       url="http://localhost:3000/getPlant"
       body='{{params}}'
@@ -133,33 +115,33 @@ block beforebody
       var scope = e.target,
           ajax = document.getElementById('ajax'),
           elePages = document.getElementById('pages'),
-          autoPlay = false,
+          elePlant = document.getElementById('plant'), // 植物
+          eleAutoPlayBtn = document.getElementById('autoPlayBtn'), //自动切换按钮
+          autoPlay = false, // 是否自动切换植物
+          lastIsAutoPlay = false, // 从主页切换到其他页面时是否在自动切换植物
           timer = null,
-          isChanging = false;
+          isChanging = false,
+          config,
+          baseInterval = 2500; // 基本间隔时间
 
       scope.params = JSON.stringify({});
-      scope.config = {
+      //- 配置
+      config = scope.config = {
         //- bgmPath: "http://up.yuedisk.com/wl/url/brjs2013/163418/yuedisk.mp3"
-        //- bgmPath: "audio/song.mp3"
-        bgmPath: "http://m1.music.126.net/ean1kFoGnra6me0A_8Uk7w==/1993414581172412.mp3"
+        bgmPath: "http://m1.music.126.net/ean1kFoGnra6me0A_8Uk7w==/1993414581172412.mp3", //背景音乐地址
+        stateInterval: baseInterval,
+        canSwitchInterval: baseInterval, // 手动切换间隔时间，防止如：鼠标滚动太多一下子切换好几个植物
+        switchInterval: baseInterval * 3 // 自动切换植物的间隔，应该是植物一个状态时间的倍数
       };
 
       // 获取植物信息
       ajax.go();
 
+
       /**
        * 鼠标滚动，切换植物
        */
       scope.handleMouseWheel = function(e){
-        if(isChanging){ // 正在改变就退出
-          return;
-        }
-
-        isChanging = true;
-        setTimeout(function(){// 5s 后才能再变
-          isChanging = false;
-        },4000);
-
         // 向上滚，获取上一个植物
         if(e.wheelDelta > 0){
           scope.getPre();
@@ -174,14 +156,9 @@ block beforebody
        * 处理键盘事件
        */
       window.addEventListener("keydown",function(e){
-        if(isChanging || elePages.selected != page2Num['page-main']){ // 正在改变就退出，不是主页就退出
+        if(elePages.selected != page2Num['page-main']){ // 不是主页就退出
           return;
         }
-
-        isChanging = true;
-        setTimeout(function(){// 5s 后才能再变
-          isChanging = false;
-        },4000);
 
         // left || up 上一个植物
         if(e.keyCode == 37 || e.keyCode == 38){
@@ -199,15 +176,10 @@ block beforebody
        * 触摸开始
        */
       scope.handleTouchStart = function(e){
-        //- if(e.target != e.currentTarget){
-        //-   return;
-        //- }
         var touch = e.touches[0];
         startY = touch.pageY;
         startX = touch.pageX;
-        console.log('触摸开始',startX,startY);
       }
-
       /**
        * 触摸中
        */
@@ -216,25 +188,14 @@ block beforebody
         endY = touch.pageY;
         endX = touch.pageX;
       }
-
       /**
        * 触摸结束
        */
       scope.handleTouchEnd = function(e){
-        if(isChanging){ // 正在改变就退出
-          return;
-        }
-
-        isChanging = true;
-        setTimeout(function(){// 5s 后才能再变
-          isChanging = false;
-        },4000);
-
         var toRight = endX - startX>50,
             toLeft = endX - startX < -50,
             toBottom = endY - startY > 50,
             toTop = endY - startY < -50;
-        console.log('触摸结束',toRight,toLeft,toTop,toBottom);
 
         // 向右滑动，向下滑动，获取上一个植物
         if(toRight || toBottom){
@@ -248,6 +209,59 @@ block beforebody
       }
 
       /**
+       * 摇一摇切换
+       */
+      var SHAKE_THRESHOLD = 800;
+      var last_update = 0;
+      var x = y = z = last_x = last_y = last_z = 0;
+
+      if (window.DeviceMotionEvent) {
+          window.addEventListener('devicemotion', deviceMotionHandler, false);
+      } else {
+          alert('本设备不支持摇一摇');
+      }
+
+      function deviceMotionHandler(eventData) {
+        if(elePages.selected != page2Num['page-main']){ // 不是主页就退出
+          return;
+        }
+
+        var acceleration = eventData.accelerationIncludingGravity;
+        var curTime = new Date().getTime();
+
+        if ((curTime - last_update) > 100) {
+          var diffTime = curTime - last_update;
+          last_update = curTime;
+          x = acceleration.x;
+          y = acceleration.y;
+          z = acceleration.z;
+          var speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+          var status = document.getElementById("status");
+
+          if (speed > SHAKE_THRESHOLD) {
+            // 摇成功了
+            scope.getRandom();
+          }
+          last_x = x;
+          last_y = y;
+          last_z = z;
+        }
+      }
+
+      /**
+       * 说明我在切换，每次切换植物都要调用，以保证不会一次切换多个植物
+       * 改成 ajax 请求前调用了
+       * @return {[type]} [description]
+       */
+      function broadChange(){
+        isChanging = true;
+        setTimeout(function(){
+          isChanging = false;
+        },config.canSwitchInterval);
+      }
+
+
+      /**
        * 页面切换
        */
       var page2Num = scope.page2Num={
@@ -256,21 +270,25 @@ block beforebody
         'page-detail': 3,
         'page-ecard': 4,
         'page-comment': 5,
-        'page-about': 6,
-        'page-img': 7,
-        'page-video': 8,
-        'page-data': 9
+        'page-about': 6
       };
       scope.selectView = function(e) {
+        var fromPage = this.$.pages.selected;
         this.$.pages.selected = page2Num[e.target.getAttribute('hero-id')];
+        // 如果从主页调到其他页，要记录当前是否在切换，并暂停自动切换
+        if(fromPage==page2Num['page-main'] && this.$.pages.selected!=page2Num['page-main']){
+          lastIsAutoPlay = autoPlay;
+          stopAutoPlay();
+        }
       }
       scope.back = function() {
         this.lastSelected = this.$.pages.selected;
         this.$.pages.selected = 1; //都回到 page-main
-      }
-      scope.backDetail = function() {
-        this.lastSelected = this.$.pages.selected;
-        this.$.pages.selected = 3; //回到 page-detail
+
+        // 如果返回主页，之前是自动切换的，那么也要开启自动切换
+        if(this.$.pages.selected==page2Num['page-main'] && lastIsAutoPlay){
+          startAutoPlay();
+        }
       }
       //- 返回最开始才会执行
       scope.transitionend = function() {
@@ -279,15 +297,19 @@ block beforebody
         }
       }
 
+
       /**
        * 上一个植物
        * @return {[type]} [description]
        */
       scope.getPre = function() {
+        if(isChanging){ // 正在改变就退出
+          return;
+        }
+        broadChange();
         ajax.url = "http://localhost:3000/getPlant";
         scope.params = JSON.stringify({"prePlant":true});
         ajax.go();
-        //获得json对象，赋值给 scope.plant
       }
 
       /**
@@ -295,16 +317,35 @@ block beforebody
        * @return {[type]} [description]
        */
       scope.getNext = function() {
+        if(isChanging){ // 正在改变就退出
+          return;
+        }
+        broadChange();
         ajax.url = "http://localhost:3000/getPlant";
         scope.params = JSON.stringify({"nextPlant":true});
         ajax.go();
-        //获得json对象，赋值给 scope.plant
+      }
+
+      /**
+       * 随机植物
+       * @return {[type]} [description]
+       */
+      scope.getRandom = function() {
+        if(isChanging){ // 正在改变就退出
+          return;
+        }
+        broadChange();
+        ajax.url = "http://localhost:3000/getPlant";
+        scope.params = JSON.stringify({"random":true});
+        ajax.go();
       }
 
       scope.handleResponse = function(){
         var ajax = document.getElementById('ajax');
+        elePlant.togglePlant(); // 每次切换都重新处理状态
         scope.plant = ajax.response;
       }
+
 
       /**
        * 自动切换植物
@@ -312,6 +353,7 @@ block beforebody
        */
       scope.toggleAutoPlay = function(){
         autoPlay = autoPlay ? false : true;
+
         if(autoPlay){
           // 立即变换
           ajax.url = "http://localhost:3000/getPlant";
@@ -322,9 +364,25 @@ block beforebody
             ajax.url = "http://localhost:3000/getPlant";
             scope.params = JSON.stringify({"nextPlant":true});
             ajax.go();
-          },4000);
+          },config.switchInterval);
         }else{
           clearInterval(timer);
+        }
+      }
+
+      function startAutoPlay(){
+        if(!autoPlay){ // 如果正在自动切换就停止
+          eleAutoPlayBtn.toggleAutoPlay(); // 保证图标正确变化
+          scope.toggleAutoPlay();
+          console.log('start auto play');
+        }
+      }
+
+      function stopAutoPlay(){
+        if(autoPlay){ // 如果正在自动切换就停止
+          eleAutoPlayBtn.toggleAutoPlay(); // 保证图标正确变化
+          scope.toggleAutoPlay();
+          console.log('stop auto play');
         }
       }
 
@@ -333,19 +391,24 @@ block beforebody
        * @return {[type]} [description]
        */
       scope.choosePlant = function(e){
-        var file = scope.activePlant;
+        var file = scope.activePlant,
+            me= this,
+            timer;
 
         if(file){
           scope.back(); // 点到植物才返回主页
-          scope.activePlant = ""; //要清楚 acivePlant
-          setTimeout(function(){ // 植物会变黑，没有渐变效果，所以延迟 todo
+          scope.activePlant = ""; //要清除 acivePlant
+
+          timer = setInterval(function(){ // 页面渐变完成后，再切换植物
+            if(me.lastSelected == null){ // 已经完成页面渐变，不然等于2
+              stopAutoPlay();
+              clearInterval(timer);
               ajax.url = "http://localhost:3000/getPlant";
               scope.params = JSON.stringify({"file":file});
               ajax.go();
-          },1000);
+            }
+          },100);
         }
       }
 
     })
-
-

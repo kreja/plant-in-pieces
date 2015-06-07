@@ -60,6 +60,16 @@ module.exports.getPlant = function *getPlant() {
     record.current === record.sum ? record.current = 1 : ++record.current;
     plantInfo = yield dbPlants.findOne({no:record.current});
   }
+  // 随机请求一个植物
+  else if(param.random===true){
+    var lastNo = record.current;
+    do{
+      record.current = Math.floor(Math.random() * record.sum+1); //random 是[0,1),若sum是2，结果要1,2
+      console.log('一样？');
+    }while(record.current === lastNo)
+    console.log(record.current);
+    plantInfo = yield dbPlants.findOne({no:record.current});
+  }
   // 选择某种植物 file
   else if(param.file){
     plantInfo = yield dbPlants.findOne({file:param.file});

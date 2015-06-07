@@ -18,7 +18,7 @@ polymer-element(name='pi-audio', attributes="autoPlay path")
         autoPlay: false,
       },
       ready: function(){
-        this.loop();
+        //- this.loop();
       },
       autoPlayChanged: function(){
         this.musicOn = this.autoPlay;
@@ -34,12 +34,8 @@ polymer-element(name='pi-audio', attributes="autoPlay path")
        * @return {[type]} [description]
        */
       loop: function(){
-          var me = this;
-        setTimeout(function(){
-          console.log('进入循环',me.$.audio.duration,me.$.audio.currentTime);
-        },2000);
+        var me = this;
         this.$.audio.addEventListener('ended', function() {
-            console.log('循环啦');
             this.currentTime = 0;
             this.play();
         }, false);

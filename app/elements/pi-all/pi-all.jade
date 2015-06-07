@@ -4,9 +4,11 @@ polymer-element(name='pi-all', attributes="activePlant")
   template
     link(rel='stylesheet', href='pi-all.css')
 
+    core-media-query(query="max-width: 768px" queryMatches="{{phoneScreen}}")
+
     bg-dot(layout,horizontal)
 
-    figure.spider(layout,horizontal,center-justified,center="")
+    figure.spider(layout,horizontal,center-justified,center?="{{!phoneScreen}}")
       img.mid(src="../../images/onepx.gif")
       .middle
         h2#showText

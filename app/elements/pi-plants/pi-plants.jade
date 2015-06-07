@@ -1,6 +1,6 @@
 link(rel='import', href='../../bower_components/polymer/polymer.html')
 
-polymer-element(name='pi-plants',attributes="plantsClass")
+polymer-element(name='pi-plants',attributes="plantsClass stateInterval")
   template
     link(rel='stylesheet', href='pi-plants.css')
     .wrap#wrap(class="{{plantsClass}}")
@@ -10,13 +10,43 @@ polymer-element(name='pi-plants',attributes="plantsClass")
 
   script.
     (function () {Polymer({
+      timer: null,
+      stateInterval: 2500, // 默认 2500 ms 切换状态
       ready: function(){
         var me= this;
-
+        me.addStateToggle(); // 默认开启状态切换
+      },
+      /**
+       * 回到无状态
+       */
+      initState: function(){
+        var me= this;
+        me.$.wrap.classList.remove('state-two');
+      },
+      /**
+       * 启动状态自动切换
+       */
+      addStateToggle: function(){
+        var me= this;
         // 定时改变状态
-        setInterval(function(){
+        me.timer = setInterval(function(){
           me.$.wrap.classList.toggle('state-two');
-        },2500);
-
+        },me.stateInterval);
+      },
+      /**
+       * 关闭状态自动切换，并回到无状态
+       */
+      removeStateToggle: function(){
+        var me= this;
+        clearInterval(me.timer);
+        me.$.wrap.classList.remove('state-two');
+      },
+      /**
+       * 每次切换都回到最初状态，重新启动状态切换
+       */
+      togglePlant: function(){
+        var me= this;
+        me.removeStateToggle();
+        me.addStateToggle();
       }
     });})();
