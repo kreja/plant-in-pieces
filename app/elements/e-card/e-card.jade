@@ -85,6 +85,10 @@ polymer-element(name='e-card',attributes="path")
         this.$.sendBtn.flyBack();
         this.toastText = this.$.ajax.response.msg;
         this.$.toast.show();
+        this.$.toName.value = "";
+        this.$.wishes.value = "";
+        this.$.fromName.value = "";
+        this.$.toEmail.value = "";
       }
 
     });})();

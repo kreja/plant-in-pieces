@@ -11,8 +11,8 @@ var render = views(__dirname + '/../views', {
 var transporter = nodemailer.createTransport({
     service: 'QQ',
     auth: {
-        user: '1023035640@qq.com',
-        pass: 'Wkl622Chy'
+        user: '3276383016@qq.com',
+        pass: 'madebykelly2015'
     }
 });
 
@@ -50,9 +50,9 @@ function send(msg,emailHtml){
   console.log(__dirname + '/../views'+'/kreja.jpg');
   // setup e-mail data with unicode symbols
   var mailOptions = {
-      from: 'kelly <1023035640@qq.com>', // sender address
+      from: 'plant-in-pieces <3276383016@qq.com>', // sender address
       to: msg.toEmail, // list of receivers
-      subject: '来自' + msg.fromName + '的电子贺卡', // Subject line
+      subject: msg.fromName +'从植物碎片寄来的贺卡', // Subject line
       html: emailHtml, // html body
       attachments: [{
         filename: 'kreja.jpg',

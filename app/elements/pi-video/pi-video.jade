@@ -1,10 +1,11 @@
 link(rel='import', href='../../bower_components/polymer/polymer.html')
 
-polymer-element(name='pi-video', attributes="path poster")
+polymer-element(name='pi-video', attributes="path")
   template
     link(rel='stylesheet', href='pi-video.css')
 
-    video(flex, src="{{path}}" controls="controls" preload="auto")
+    //- video(flex, src="{{path}}" controls="controls" preload="auto")
+    embed(flex, src="{{path}}" allowFullScreen="true" quality="high" align="middle" allowScriptAccess="never" type="application/x-shockwave-flash")
 
   script.
     (function () {Polymer({

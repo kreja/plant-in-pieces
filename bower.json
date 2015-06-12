@@ -18,7 +18,8 @@
     "core-ajax": "Polymer/core-ajax#~0.5.6",
     "paper-elements": "Polymer/paper-elements#^0.5.1",
     "polymer": "Polymer/polymer#~0.5.5",
-    "core-animated-pages": "Polymer/core-animated-pages#~0.5.5"
+    "core-animated-pages": "Polymer/core-animated-pages#~0.5.5",
+    "poly-cloud": "~1.0.1"
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^2.2.3"

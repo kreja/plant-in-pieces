@@ -2,8 +2,7 @@
   display: block;
   padding: 0 10px;
 }
-.title,
-.des{
+.title{
   color: #fff;
   text-align: center;
 }
@@ -11,12 +10,17 @@
   font-size: 24px;
 }
 .des{
+  color: #fff;
+  text-indent: 2em;
   font-size: 14px;
 }
 .source{
   font-size: 12px;
   p{
     color: #fff;
+  }
+  ul{
+    padding-left: 20px;
   }
   li{
     list-style: none;
@@ -28,6 +32,13 @@
       border-bottom: 1px solid #fff;
     }
   }
+}
+
+.footer{
+  margin: 50px 20px 20px;
+  font-size: 12px;
+  color: #fff;
+  text-align: center
 }
 
 /**

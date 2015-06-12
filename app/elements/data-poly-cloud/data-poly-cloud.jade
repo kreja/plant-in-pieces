@@ -1,0 +1,21 @@
+link(rel='import', href='../../bower_components/polymer/polymer.html')
+link(rel='import', href='../../bower_components/poly-cloud/poly-cloud.html')
+
+polymer-element(name='data-poly-cloud', extends="poly-cloud" attributs="ydata")
+  script.
+    (function () {Polymer({
+      url: '',
+      publish:{
+        ydata: []
+      },
+      ready: function() {
+        this.super();
+
+        var self = this;
+        setInterval(function() {
+          self.data = self.ydata.map(function(d) {
+            return {text: d, size: 20 + Math.random() * 40};
+          });
+        }, 3000);
+      }
+    });})();

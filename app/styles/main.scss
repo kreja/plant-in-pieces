@@ -22,8 +22,8 @@ pi-welcome{
 }
 .des{
   text-align: center;
-  color: #AD9570;
-  margin: 20px 32px 150px;
+  color: #A68A5F;
+  margin: 20px 42px 150px;
   font-size: 12px;
 }
 paper-button[raised].btn{
@@ -208,6 +208,9 @@ pi-all{
   overflow: auto;
 }
 
+.navdes{
+  display: none;
+}
 
 /**
  * pad and desktop
@@ -273,6 +276,47 @@ pi-all{
     .wrap{
       padding: 5px;
     }
+  }
+  /*under 2 is for the teacher*/
+  .navdes{
+    display: block;
+    p{
+      position: absolute;
+      color: #fff;
+      font-size: 13px;
+      opacity: 0.6;
+    }
+    p:nth-child(1){
+      left: 15px;
+      top: 252px;
+    }
+    p:nth-child(2){
+      left: 15px;
+      top: 333px;
+    }
+    p:nth-child(3){
+      left: 15px;
+      top: 415px;
+    }
+    p:nth-child(4){
+      right: 30px;
+      top: 224px;
+    }
+    p:nth-child(5){
+      right: 30px;
+      top: 297px;
+    }
+    p:nth-child(6){
+      right: 30px;
+      top: 371px;
+    }
+    p:nth-child(7){
+      right: 30px;
+      top: 446px;
+    }
+  }
+  paper-fab-menu-item{
+    margin: 15px 0;
   }
 }
 /**

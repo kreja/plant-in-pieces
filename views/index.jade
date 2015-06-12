@@ -14,7 +14,7 @@ block content
             div(vertical, center, center-justified, layout,cross-fade)
               falling-leaves
               pi-welcome
-              p.des 这是一场植物的盛典，那些在碎片中挣扎的生命，是正在逝去的美丽。
+              p.des 这是一场濒危植物的盛典，那些在碎片中挣扎的生命是正在逝去的美丽。关注濒危植物，不要让美丽成为真的碎片。
               paper-button.btn(
                 cross-fade raised on-tap='{{selectView}}'
                 hero-id='page-main',
@@ -28,8 +28,8 @@ block content
             div(layout,justified,horizontal?="{{phoneScreen}}",vertical?="{{!phoneScreen}}")
               paper-fab(icon="apps",mini,title="所有植物",cross-fade,raised,on-tap='{{selectView}}',hero-id='page-all',hero?="{{$.pages.selected === page2Num['page-all'] || lastSelected === page2Num['page-all']}}")
               autoPlay-btn#autoPlayBtn(autoPlay="false", on-tap="{{toggleAutoPlay}}")
-              //- pi-audio.notsm(path="{{config.bgmPath}}",autoPlay="{{!phoneScreen}}")
-              pi-audio.notsm(path="{{config.bgmPath}}",autoPlay="false")
+              pi-audio.notsm(path="{{config.bgmPath}}",autoPlay="{{!phoneScreen}}")
+              //- pi-audio.notsm(path="{{config.bgmPath}}",autoPlay="false")
               paper-icon-button.pre-btn(icon="arrow-back" title="上一个" on-tap="{{getPre}}")
               paper-icon-button.next-btn(icon="arrow-forward" title="下一个" on-tap="{{getNext}}")
 
@@ -45,6 +45,16 @@ block content
 
           //- 植物名
           div.plantName {{plant.name}}
+
+          //- 老师要求加的，桌面电脑才显示
+          .navdes
+            p 所有植物
+            p 自动播放
+            p 背景音乐
+            p 详情
+            p 贺卡
+            p 留言
+            p 关于
 
 
       //- 所有植物页面 2
@@ -68,9 +78,12 @@ block content
               co-img(layout,horizontal,flex)
                 img-slider(layout,horizontal,flex,path="data/{{plant.file}}/images/")
               co-video(layout,horizontal,flex)
-                pi-video(layout,horizontal,flex,path="data/{{plant.file}}/videos/0.mp4",poster="images/plantImg/{{plant.file}}.jpg")
-              co-data(layout,horizontal,flex)
-
+                pi-video(layout,horizontal,flex,path="{{plant.video.src[0]}}")
+              co-data#co-data(layout,horizontal,flex)
+                template(if="{{!phoneScreen}}")
+                  data-poly-cloud(ydata='{{plant.keywords}}',width="492px",height='300px',padding='0px',style="margin-left:-30px;")
+                template(if="{{phoneScreen}}")
+                  data-poly-cloud(ydata='{{plant.keywords}}',width="296px",height='200px',padding='0px',style="margin-left:-30px;")
 
       //- 电子贺卡 4
       section(layout,vertical)
@@ -137,6 +150,18 @@ block beforebody
       // 获取植物信息
       ajax.go();
 
+      // todo
+      var coData = document.getElementById('co-data');
+      //- for(var i in coData){
+      //-   console.log(i)
+      //- }
+
+      console.log(coData.innerWidth);
+      function getStyle(el, name) {
+            if(window.getComputedStyle) {
+                return window.getComputedStyle(el, null).getPropertyValue("width");;
+            }
+        }
 
       /**
        * 鼠标滚动，切换植物
